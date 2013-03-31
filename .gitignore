@@ -1,4 +1,13 @@
 *.log
 *.pot
 *.pyc
+*.swp
+*.swo
+*.egg-info
+*.egg
 local_settings.py
+/env/
+/build/
+/dist/
+coverage/
+.coverage
