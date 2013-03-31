@@ -1,10 +1,34 @@
 import random
 
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
+
+
+class CouponManager(models.Manager):
+    def create_coupon(self, type, value, user=None):
+        coupon = self.create(
+                value=value,
+                code=Coupon.generate_code(),
+                type=type,
+                user=user
+            )
+        try:
+            coupon.save()
+        except IntegrityError:
+            # Try again with other code
+            return Coupon.objects.create_coupon(type, value, user)
+        else:
+            return coupon
+
+    def create_coupons(self, number, type, value):
+        coupons = []
+        for i in xrange(number):
+            coupons.append(self.create_coupon(type, value))
+        return coupons
 
 
 class Coupon(models.Model):
@@ -15,6 +39,8 @@ class Coupon(models.Model):
         help_text=_("You may specify a user youn with to limit this coupon to"))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Created at"), blank=True, null=True)
+
+    objects = CouponManager()
 
     class Meta:
         ordering = ['created_at']
