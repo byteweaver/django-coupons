@@ -1,8 +1,10 @@
+import random
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from settings import COUPON_TYPES
+from settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
 
 
 class Coupon(models.Model):
@@ -21,4 +23,8 @@ class Coupon(models.Model):
 
     def __unicode__(self):
         return self.code
+
+    @classmethod
+    def generate_code(cls):
+        return "".join(random.choice(CODE_CHARS) for i in xrange(CODE_LENGTH))
 
