@@ -10,6 +10,11 @@ class CouponTestCase(TestCase):
     def test_generate_code(self):
         self.assertIsNotNone(re.match("^[%s]{%d}" % (CODE_CHARS, CODE_LENGTH,), Coupon.generate_code()))
 
+    def test_save(self):
+        coupon = Coupon(type='monetary', value=100)
+        coupon.save()
+        self.assertTrue(coupon.pk)
+
     def test_create_coupon(self):
         coupon = Coupon.objects.create_coupon('menetary', 100)
         self.assertTrue(coupon.pk)
