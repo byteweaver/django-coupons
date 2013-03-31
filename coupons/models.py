@@ -39,7 +39,7 @@ class Coupon(models.Model):
     user = models.ForeignKey(User, verbose_name=_("User"), null=True, blank=True,
         help_text=_("You may specify a user youn with to limit this coupon to"))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
-    redeemed_at = models.DateTimeField(_("Created at"), blank=True, null=True)
+    redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
 
     objects = CouponManager()
 
