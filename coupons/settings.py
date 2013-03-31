@@ -1,3 +1,5 @@
+import string
+
 from django.conf import settings
 
 
@@ -6,4 +8,8 @@ COUPON_TYPES = getattr(settings, 'COUPNS_COUPON_TYPES', (
         ('percentage', 'Percentage discount'),
         ('virtual_currency', 'Virtual currency'),
     ))
+
+CODE_LENGTH = getattr(settings, 'COUPNS_CODE_LENGTH', 15)
+
+CODE_CHARS = getattr(settings, 'COUPNS_CODE_CHARS', string.letters+string.digits)
 
