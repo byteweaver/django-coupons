@@ -1,0 +1,65 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .actions ul, ul.errorlist {
+        margin: 5px !important;
+    }
+    .actions ul li {
+        display: inline;
+        list-style-type: none;
+        padding-right: 20px;
+    }
+    #changelist table thead th {
+        padding: 2px 5px;
+    }
+</style>
+{% endblock %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url admin:index %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="{% url admin:app_list app_label='coupons' %}">{% trans 'Coupons' %}</a>
+    &rsaquo; {% trans "Generate coupons" %}
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <div class="module" id="changelist">
+        <form id="changelist-form" action="" method="post">
+            {% csrf_token %}
+            <div class="actions">
+                <ul>
+                    {{form.as_ul}}
+                    <li><input type="submit" value="{% trans "Generate coupons" %}" class=""></li>
+                </ul>
+            </div>
+            {% if coupons %}
+            <div class="results">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% trans "Id" %}</th>
+                            <th>{% trans "Code" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for coupon in coupons %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{coupon.id}}</td>
+                                <td>{{coupon.code}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
