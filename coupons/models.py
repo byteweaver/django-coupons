@@ -24,9 +24,9 @@ class CouponManager(models.Manager):
         else:
             return coupon
 
-    def create_coupons(self, number, type, value):
+    def create_coupons(self, quantity, type, value):
         coupons = []
-        for i in xrange(number):
+        for i in xrange(quantity):
             coupons.append(self.create_coupon(type, value))
         return coupons
 
