@@ -3,7 +3,7 @@ import string
 from django.conf import settings
 
 
-COUPON_TYPES = getattr(settings, 'COUPNS_COUPON_TYPES', (
+COUPON_TYPES = getattr(settings, 'COUPONS_COUPON_TYPES', (
         ('monetary', 'Money based coupon'),
         ('percentage', 'Percentage discount'),
         ('virtual_currency', 'Virtual currency'),
