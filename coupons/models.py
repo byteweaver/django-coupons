@@ -1,8 +1,10 @@
+from datetime import datetime
 import random
 
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db import models
+from django.utils.timezone import get_default_timezone
 from django.utils.translation import ugettext_lazy as _
 
 from settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
@@ -59,4 +61,9 @@ class Coupon(models.Model):
     @classmethod
     def generate_code(cls):
         return "".join(random.choice(CODE_CHARS) for i in xrange(CODE_LENGTH))
+
+    def redeem(self, user=None):
+        self.redeemed_at = datetime.now(get_default_timezone())
+        self.user = user
+        self.save()
 
