@@ -16,11 +16,11 @@ class CouponTestCase(TestCase):
         self.assertTrue(coupon.pk)
 
     def test_create_coupon(self):
-        coupon = Coupon.objects.create_coupon('menetary', 100)
+        coupon = Coupon.objects.create_coupon('monetary', 100)
         self.assertTrue(coupon.pk)
 
     def test_create_coupons(self):
-        coupons = Coupon.objects.create_coupons(50, 'menetary', 100)
+        coupons = Coupon.objects.create_coupons(50, 'monetary', 100)
         for coupon in coupons:
             self.assertTrue(coupon.pk)
 
