@@ -39,7 +39,7 @@ class Coupon(models.Model):
         help_text=_("Leaving this field empty will generate a random code."))
     type = models.CharField(_("Type"), max_length=20, choices=COUPON_TYPES)
     user = models.ForeignKey(User, verbose_name=_("User"), null=True, blank=True,
-        help_text=_("You may specify a user youn with to limit this coupon to"))
+        help_text=_("You may specify a user you want to restrict this coupon to."))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
 
