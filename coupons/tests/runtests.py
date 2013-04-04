@@ -33,6 +33,7 @@ COVERAGE_MODULE_EXCLUDES += EXTERNAL_APPS
 
 if not settings.configured:
     settings.configure(
+        USE_TZ=True,
         DATABASES={
             "default": {
                 "ENGINE": "django.db.backends.sqlite3",
