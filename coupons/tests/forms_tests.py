@@ -23,3 +23,8 @@ class CouponFormTestCase(TestCase):
         form = CouponForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    def test_types(self):
+        form_data = {'code': self.coupon.code}
+        form = CouponForm(data=form_data, types=('percentage',))
+        self.assertFalse(form.is_valid())
+
