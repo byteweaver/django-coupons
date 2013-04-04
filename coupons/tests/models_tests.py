@@ -24,3 +24,8 @@ class CouponTestCase(TestCase):
         for coupon in coupons:
             self.assertTrue(coupon.pk)
 
+    def test_redeem(self):
+        coupon = Coupon.objects.create_coupon('monetary', 100)
+        coupon.redeem()
+        self.assertIsNotNone(coupon.redeemed_at)
+
