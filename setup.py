@@ -16,6 +16,7 @@ setup(
     author='byteweaver',
     author_email='contact@byteweaver.net',
     url='https://github.com/byteweaver/django-coupons',
+    include_package_data=True,
     packages=find_packages(),
     install_requires=[
         'django',
