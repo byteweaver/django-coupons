@@ -40,7 +40,7 @@ msgstr "Gutscheincode"
 
 #: coupons/forms.py:33
 msgid "This code is not valid."
-msgstr "Dieser doce ist nicht gültig."
+msgstr "Dieser Code ist nicht gültig."
 
 #: coupons/forms.py:36
 msgid "This code is not valid for your account."
