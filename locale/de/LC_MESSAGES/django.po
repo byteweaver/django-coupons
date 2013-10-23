@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: v 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-23 20:37+0200\n"
+"PO-Revision-Date: 2013-10-23 20:42+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: akuryou\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+"Language: German\n"
+
+#: coupons/admin.py:34
+msgid "Your coupons have been generated."
+msgstr "Ihre Gutscheine wurden erstellt."
+
+#: coupons/forms.py:9
+msgid "Quantity"
+msgstr "Menge"
+
+#: coupons/forms.py:10 coupons/models.py:37
+msgid "Value"
+msgstr "Wert"
+
+#: coupons/forms.py:11 coupons/models.py:40
+msgid "Type"
+msgstr "Typ"
+
+#: coupons/forms.py:15
+msgid "Coupon code"
+msgstr "Gutscheincode"
+
+#: coupons/forms.py:33
+msgid "This code is not valid."
+msgstr "Dieser doce ist nicht gültig."
+
+#: coupons/forms.py:36
+msgid "This code is not valid for your account."
+msgstr "Dieser Code gilt nicht für Ihren Account."
+
+#: coupons/forms.py:38
+msgid "This code is not ment to be used here."
+msgstr "Dieser Code kann hier nicht eingesetzt werden."
+
+#: coupons/models.py:37
+msgid "Arbitrary coupon value"
+msgstr "Beliebiger Gutscheinwert"
+
+#: coupons/models.py:38 coupons/templates/admin/generate_coupons.html:46
+msgid "Code"
+msgstr "Code"
+
+#: coupons/models.py:39
+msgid "Leaving this field empty will generate a random code."
+msgstr ""
+"Falls dieses Feld leer gelassen wird wird ein zufälliger Code generiert."
+
+#: coupons/models.py:41
+msgid "User"
+msgstr "Benutzer"
+
+#: coupons/models.py:42
+msgid "You may specify a user you want to restrict this coupon to."
+msgstr ""
+"Sie können einen Benutzer angeben auf den der Gutschein beschränkt ist."
+
+#: coupons/models.py:43
+msgid "Created at"
+msgstr "Erstellt am"
+
+#: coupons/models.py:44
+msgid "Redeemed at"
+msgstr "Eingelöst am"
+
+#: coupons/models.py:50
+msgid "Coupon"
+msgstr "Gutschein"
+
+#: coupons/models.py:51 coupons/templates/admin/generate_coupons.html:23
+msgid "Coupons"
+msgstr "Gutscheine"
+
+#: coupons/templates/admin/generate_coupons.html:22
+msgid "Home"
+msgstr "Home"
+
+#: coupons/templates/admin/generate_coupons.html:24
+#: coupons/templates/admin/generate_coupons.html:36
+msgid "Generate coupons"
+msgstr "Gutscheine erstellen"
+
+#: coupons/templates/admin/generate_coupons.html:45
+msgid "Id"
+msgstr "Id"
