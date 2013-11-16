@@ -9,14 +9,15 @@ from models import Coupon
 
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at',]
-    list_filter = ['type', 'created_at', 'redeemed_at',]
+    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at']
+    list_filter = ['type', 'created_at', 'redeemed_at']
     raw_id_fields = ('user',)
     search_fields = ('user__username', 'user__email', 'code', 'value')
 
     def get_urls(self):
         urls = super(CouponAdmin, self).get_urls()
-        my_urls = patterns('',
+        my_urls = patterns(
+            '',
             url(r'generate-coupons', self.admin_site.admin_view(GenerateCouponsAdminView.as_view()), name='generate_coupons'),
         )
         return my_urls + urls
@@ -30,7 +31,11 @@ class GenerateCouponsAdminView(TemplateView):
         if self.request.method == 'POST':
             form = CouponGenerationForm(self.request.POST)
             if form.is_valid():
-                context['coupons'] = Coupon.objects.create_coupons(form.cleaned_data['quantity'], form.cleaned_data['type'], form.cleaned_data['value'])
+                context['coupons'] = Coupon.objects.create_coupons(
+                    form.cleaned_data['quantity'],
+                    form.cleaned_data['type'],
+                    form.cleaned_data['value']
+                )
                 messages.success(self.request, _("Your coupons have been generated."))
         else:
             form = CouponGenerationForm()
@@ -43,4 +48,3 @@ class GenerateCouponsAdminView(TemplateView):
 
 
 admin.site.register(Coupon, CouponAdmin)
-
