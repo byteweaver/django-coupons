@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from django.contrib import admin
 from django.contrib import messages
-from django import http
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import TemplateView
 
