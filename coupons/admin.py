@@ -12,6 +12,7 @@ class CouponAdmin(admin.ModelAdmin):
     list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at',]
     list_filter = ['type', 'created_at', 'redeemed_at',]
     raw_id_fields = ('user',)
+    search_fields = ('user__username', 'user__email', 'code', 'value')
 
     def get_urls(self):
         urls = super(CouponAdmin, self).get_urls()
