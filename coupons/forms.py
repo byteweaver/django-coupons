@@ -39,4 +39,3 @@ class CouponForm(forms.Form):
         if not self.types is None and coupon.type not in self.types:
             raise forms.ValidationError(_("This code is not ment to be used here."))
         return code
-
