@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 
@@ -38,3 +40,10 @@ class CouponFormTestCase(TestCase):
         form = CouponForm(data=form_data, user=other_user)
         self.assertFalse(form.is_valid())
 
+    def test_reuse(self):
+        self.coupon.redeemed_at = datetime.now()
+        self.coupon.save()
+
+        form_data = {'code': self.coupon.code}
+        form = CouponForm(data=form_data, user=self.user)
+        self.assertFalse(form.is_valid())

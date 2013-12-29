@@ -28,13 +28,14 @@ class CouponForm(forms.Form):
     def clean_code(self):
         code = self.cleaned_data['code']
         try:
-            coupon = Coupon.objects.get(code=code, redeemed_at=None)
+            coupon = Coupon.objects.get(code=code)
         except Coupon.DoesNotExist:
             raise forms.ValidationError(_("This code is not valid."))
         self.coupon = coupon
+        if not coupon.redeemed_at is None:
+            raise forms.ValidationError(_("This code has already been used."))
         if not coupon.user is None and coupon.user != self.user:
             raise forms.ValidationError(_("This code is not valid for your account."))
         if not self.types is None and coupon.type not in self.types:
             raise forms.ValidationError(_("This code is not ment to be used here."))
         return code
-
