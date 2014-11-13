@@ -11,3 +11,6 @@ local_settings.py
 /dist/
 coverage/
 .coverage
+.ropeproject/
+.tox/
+htmlcov/
