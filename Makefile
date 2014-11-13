@@ -8,7 +8,7 @@ all: environment reqirements
 environment:
 	test -d "$(VIRTUALENV_FOLDER)" || virtualenv $(VIRTUALENV_FOLDER)
 
-reqirements:
+requirements:
 	$(PIP_BIN) install -r requirements.txt
 
 test:
