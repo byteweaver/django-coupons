@@ -19,11 +19,11 @@ except AttributeError:
 class CouponManager(models.Manager):
     def create_coupon(self, type, value, user=None):
         coupon = self.create(
-                value=value,
-                code=Coupon.generate_code(),
-                type=type,
-                user=user
-            )
+            value=value,
+            code=Coupon.generate_code(),
+            type=type,
+            user=user
+        )
         try:
             coupon.save()
         except IntegrityError:
@@ -72,4 +72,3 @@ class Coupon(models.Model):
         self.redeemed_at = datetime.now(get_default_timezone())
         self.user = user
         self.save()
-
