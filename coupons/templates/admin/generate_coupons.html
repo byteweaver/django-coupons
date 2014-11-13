@@ -19,8 +19,8 @@
 {% endblock %}
 {% block breadcrumbs %}
 <div class="breadcrumbs">
-    <a href="{% url admin:index %}">{% trans 'Home' %}</a>
-    &rsaquo; <a href="{% url admin:app_list app_label='coupons' %}">{% trans 'Coupons' %}</a>
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='coupons' %}">{% trans 'Coupons' %}</a>
     &rsaquo; {% trans "Generate coupons" %}
 </div>
 {% endblock %}
