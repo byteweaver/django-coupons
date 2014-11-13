@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import TemplateView
 
-from forms import CouponGenerationForm
-from models import Coupon
+from .forms import CouponGenerationForm
+from .models import Coupon
 
 
 class CouponAdmin(admin.ModelAdmin):
