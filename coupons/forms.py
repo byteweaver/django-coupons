@@ -1,8 +1,8 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from models import Coupon
-from settings import COUPON_TYPES
+from .models import Coupon
+from .settings import COUPON_TYPES
 
 
 class CouponGenerationForm(forms.Form):

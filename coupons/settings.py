@@ -11,5 +11,4 @@ COUPON_TYPES = getattr(settings, 'COUPONS_COUPON_TYPES', (
 
 CODE_LENGTH = getattr(settings, 'COUPNS_CODE_LENGTH', 15)
 
-CODE_CHARS = getattr(settings, 'COUPNS_CODE_CHARS', string.letters+string.digits)
-
+CODE_CHARS = getattr(settings, 'COUPNS_CODE_CHARS', string.ascii_letters+string.digits)

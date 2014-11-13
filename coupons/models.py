@@ -7,7 +7,7 @@ from django.db import models
 from django.utils.timezone import get_default_timezone
 from django.utils.translation import ugettext_lazy as _
 
-from settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
+from .settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
 
 
 try:
@@ -34,7 +34,7 @@ class CouponManager(models.Manager):
 
     def create_coupons(self, quantity, type, value):
         coupons = []
-        for i in xrange(quantity):
+        for i in range(quantity):
             coupons.append(self.create_coupon(type, value))
         return coupons
 
@@ -66,7 +66,7 @@ class Coupon(models.Model):
 
     @classmethod
     def generate_code(cls):
-        return "".join(random.choice(CODE_CHARS) for i in xrange(CODE_LENGTH))
+        return "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))
 
     def redeem(self, user=None):
         self.redeemed_at = datetime.now(get_default_timezone())
