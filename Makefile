@@ -11,6 +11,6 @@ environment:
 requirements:
 	$(PIP_BIN) install -r requirements.txt
 
-test:
-	$(PYTHON_BIN) coupons/tests/runtests.py
+test: requirements
+	$(PYTHON_BINARY) env/bin/django-admin.py test --settings=coupons.tests.settings
 
