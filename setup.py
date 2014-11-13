@@ -18,11 +18,4 @@ setup(
     url='https://github.com/byteweaver/django-coupons',
     include_package_data=True,
     packages=find_packages(),
-    tests_require=[
-        'django',
-        'django-nose',
-        'coverage',
-        'django-coverage',
-    ],
-    test_suite='coupons.tests',
 )

@@ -1,4 +1,5 @@
+# coretechs itself, required to make global django-admin.py work
+-e .
+
 django
-django-nose
 coverage
-django-coverage

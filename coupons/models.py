@@ -1,7 +1,7 @@
 from datetime import datetime
 import random
 
-from django.contrib import auth
+from django.conf import settings
 from django.db import IntegrityError
 from django.db import models
 from django.utils.timezone import get_default_timezone
@@ -11,19 +11,19 @@ from settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
 
 
 try:
-    User = auth.get_user_model()
+    user_model = settings.AUTH_USER_MODEL
 except AttributeError:
-    User = auth.models.User
+    from django.contrib.auth.models import User as user_model
 
 
 class CouponManager(models.Manager):
     def create_coupon(self, type, value, user=None):
         coupon = self.create(
-                value=value,
-                code=Coupon.generate_code(),
-                type=type,
-                user=user
-            )
+            value=value,
+            code=Coupon.generate_code(),
+            type=type,
+            user=user
+        )
         try:
             coupon.save()
         except IntegrityError:
@@ -44,7 +44,7 @@ class Coupon(models.Model):
     code = models.CharField(_("Code"), max_length=30, unique=True, blank=True,
         help_text=_("Leaving this field empty will generate a random code."))
     type = models.CharField(_("Type"), max_length=20, choices=COUPON_TYPES)
-    user = models.ForeignKey(User, verbose_name=_("User"), null=True, blank=True,
+    user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True,
         help_text=_("You may specify a user you want to restrict this coupon to."))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
@@ -72,4 +72,3 @@ class Coupon(models.Model):
         self.redeemed_at = datetime.now(get_default_timezone())
         self.user = user
         self.save()
-
