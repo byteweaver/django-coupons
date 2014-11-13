@@ -18,4 +18,13 @@ setup(
     url='https://github.com/byteweaver/django-coupons',
     include_package_data=True,
     packages=find_packages(),
+    classifiers=[
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+    ]
 )
