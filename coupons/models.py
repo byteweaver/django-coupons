@@ -1,13 +1,19 @@
 from datetime import datetime
 import random
 
-from django.contrib.auth.models import User
+from django.contrib import auth
 from django.db import IntegrityError
 from django.db import models
 from django.utils.timezone import get_default_timezone
 from django.utils.translation import ugettext_lazy as _
 
 from settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
+
+
+try:
+    User = auth.get_user_model()
+except AttributeError:
+    User = auth.models.User
 
 
 class CouponManager(models.Manager):
