@@ -1,4 +1,4 @@
-# coretechs itself, required to make global django-admin.py work
+# coupons itself, required to make global django-admin.py work
 -e .
 
 django
