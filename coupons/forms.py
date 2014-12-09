@@ -37,5 +37,5 @@ class CouponForm(forms.Form):
         if coupon.user is not None and coupon.user != self.user:
             raise forms.ValidationError(_("This code is not valid for your account."))
         if self.types is not None and coupon.type not in self.types:
-            raise forms.ValidationError(_("This code is not ment to be used here."))
+            raise forms.ValidationError(_("This code is not meant to be used here."))
         return code
