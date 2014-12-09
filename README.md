@@ -5,12 +5,16 @@ A reuseable Django application for coupon gereration and handling
 
 
 ##Changelog
-###V 1.0.1
+
+###V 1.0.2
 Fixed Typo in settings.
 * COUPNS_CODE_LENGTH -> COUPONS_CODE_LENGTH
 * COUPNS_CODE_CHARS -> COUPONS_CODE_CHARS
 
 *Check your settings after updating!*
+
+###V 1.0.1
+add django 1.7 migrations and south legacy migrations
 
 ###V 1.0.0
 Supports:
