@@ -6,6 +6,9 @@ A reuseable Django application for coupon gereration and handling
 
 ##Changelog
 
+###V 1.0.3
+Typo and CouponForm fix.
+
 ###V 1.0.2
 Fixed Typo in settings.
 * COUPNS_CODE_LENGTH -> COUPONS_CODE_LENGTH
