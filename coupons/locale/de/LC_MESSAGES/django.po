@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-29 18:41+0100\n"
-"PO-Revision-Date: 2013-12-29 18:41+0100\n"
+"POT-Creation-Date: 2014-12-10 01:06-0600\n"
+"PO-Revision-Date: 2014-12-10 08:06+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: akuryou\n"
 "Language: German\n"
@@ -26,11 +26,11 @@ msgstr "Ihre Gutscheine wurden erstellt."
 msgid "Quantity"
 msgstr "Menge"
 
-#: forms.py:10 models.py:37
+#: forms.py:10 models.py:43
 msgid "Value"
 msgstr "Wert"
 
-#: forms.py:11 models.py:40
+#: forms.py:11 models.py:46
 msgid "Type"
 msgstr "Typ"
 
@@ -51,44 +51,45 @@ msgid "This code is not valid for your account."
 msgstr "Dieser Code gilt nicht für Ihren Account."
 
 #: forms.py:40
-msgid "This code is not ment to be used here."
+#| msgid "This code is not ment to be used here."
+msgid "This code is not meant to be used here."
 msgstr "Dieser Code kann hier nicht eingesetzt werden."
 
-#: models.py:37
+#: models.py:43
 msgid "Arbitrary coupon value"
 msgstr "Beliebiger Gutscheinwert"
 
-#: models.py:38 templates/admin/generate_coupons.html:46
+#: models.py:44 templates/admin/generate_coupons.html:46
 msgid "Code"
 msgstr "Code"
 
-#: models.py:39
+#: models.py:45
 msgid "Leaving this field empty will generate a random code."
 msgstr ""
 "Falls dieses Feld leer gelassen wird wird ein zufälliger Code generiert."
 
-#: models.py:41
+#: models.py:47
 msgid "User"
 msgstr "Benutzer"
 
-#: models.py:42
+#: models.py:48
 msgid "You may specify a user you want to restrict this coupon to."
 msgstr ""
 "Sie können einen Benutzer angeben auf den der Gutschein beschränkt ist."
 
-#: models.py:43
+#: models.py:49
 msgid "Created at"
 msgstr "Erstellt am"
 
-#: models.py:44
+#: models.py:50
 msgid "Redeemed at"
 msgstr "Eingelöst am"
 
-#: models.py:50
+#: models.py:56
 msgid "Coupon"
 msgstr "Gutschein"
 
-#: models.py:51 templates/admin/generate_coupons.html:23
+#: models.py:57 templates/admin/generate_coupons.html:23
 msgid "Coupons"
 msgstr "Gutscheine"
 
