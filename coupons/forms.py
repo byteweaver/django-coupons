@@ -23,7 +23,7 @@ class CouponForm(forms.Form):
         if 'types' in kwargs:
             self.types = kwargs['types']
             del kwargs['types']
-        return super(CouponForm, self).__init__(*args, **kwargs)
+        super(CouponForm, self).__init__(*args, **kwargs)
 
     def clean_code(self):
         code = self.cleaned_data['code']
