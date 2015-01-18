@@ -1,5 +1,7 @@
 #django-coupons
 
+![build status](https://travis-ci.org/byteweaver/django-coupons.png)
+
 A reuseable Django application for coupon gereration and handling
 
 
