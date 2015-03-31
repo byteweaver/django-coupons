@@ -4,6 +4,7 @@ import random
 from django.conf import settings
 from django.db import IntegrityError
 from django.db import models
+from django.dispatch import Signal
 from django.utils.timezone import get_default_timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -14,6 +15,7 @@ try:
     user_model = settings.AUTH_USER_MODEL
 except AttributeError:
     from django.contrib.auth.models import User as user_model
+redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
@@ -72,3 +74,4 @@ class Coupon(models.Model):
         self.redeemed_at = datetime.now(get_default_timezone())
         self.user = user
         self.save()
+        redeem_done.send(sender=self.__class__, coupon=self)
