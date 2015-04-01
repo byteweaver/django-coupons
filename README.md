@@ -5,6 +5,14 @@
 A reuseable Django application for coupon gereration and handling
 
 
+##Contributors
+(alphabetical order)
+
+@akuryou
+@ikresoft
+@noxan
+@TigerDX
+@TimFletcher
 
 ##Changelog
 
