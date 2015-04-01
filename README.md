@@ -16,6 +16,9 @@ A reuseable Django application for coupon gereration and handling
 
 ##Changelog
 
+###V 1.0.4
+redeem_done signal
+
 ###V 1.0.3
 Typo and CouponForm fix.
 
