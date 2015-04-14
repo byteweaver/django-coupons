@@ -50,6 +50,8 @@ class Coupon(models.Model):
         help_text=_("You may specify a user you want to restrict this coupon to."))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
+    valid_until = models.DateTimeField(_("Valid until"), blank=True, null=True,
+        help_text=_("Leave empty for coupons that never expire"))
 
     objects = CouponManager()
 
