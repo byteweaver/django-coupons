@@ -20,12 +20,13 @@ redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
-    def create_coupon(self, type, value, user=None):
+    def create_coupon(self, type, value, user=None, valid_until=None):
         coupon = self.create(
             value=value,
             code=Coupon.generate_code(),
             type=type,
-            user=user
+            user=user,
+            valid_until=valid_until,
         )
         try:
             coupon.save()
@@ -35,10 +36,10 @@ class CouponManager(models.Manager):
         else:
             return coupon
 
-    def create_coupons(self, quantity, type, value):
+    def create_coupons(self, quantity, type, value, valid_until=None):
         coupons = []
         for i in range(quantity):
-            coupons.append(self.create_coupon(type, value))
+            coupons.append(self.create_coupon(type, value, None, valid_until))
         return coupons
 
 
