@@ -6,6 +6,7 @@ from django.db import IntegrityError
 from django.db import models
 from django.dispatch import Signal
 from django.utils.timezone import get_default_timezone
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
@@ -67,6 +68,9 @@ class Coupon(models.Model):
         if not self.code:
             self.code = Coupon.generate_code()
         super(Coupon, self).save(*args, **kwargs)
+
+    def expired(self):
+        return self.valid_until is not None and self.valid_until < timezone.now()
 
     @classmethod
     def generate_code(cls):
