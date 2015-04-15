@@ -1,5 +1,7 @@
+from datetime import timedelta
 import re
 
+from django.utils import timezone
 from django.test import TestCase
 
 from coupons.models import Coupon
@@ -29,3 +31,8 @@ class CouponTestCase(TestCase):
         coupon.redeem()
         self.assertIsNotNone(coupon.redeemed_at)
 
+    def test_expired(self):
+        coupon = Coupon.objects.create_coupon('monetary', 100)
+        self.assertFalse(coupon.expired())
+        coupon.valid_until = timezone.now()-timedelta(1)
+        self.assertTrue(coupon.expired())

@@ -9,8 +9,8 @@ from .models import Coupon
 
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at']
-    list_filter = ['type', 'created_at', 'redeemed_at']
+    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at', 'valid_until']
+    list_filter = ['type', 'created_at', 'redeemed_at', 'valid_until']
     raw_id_fields = ('user',)
     search_fields = ('user__username', 'user__email', 'code', 'value')
 

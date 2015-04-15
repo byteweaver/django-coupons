@@ -6,6 +6,7 @@ from django.db import IntegrityError
 from django.db import models
 from django.dispatch import Signal
 from django.utils.timezone import get_default_timezone
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
@@ -19,12 +20,13 @@ redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
-    def create_coupon(self, type, value, user=None):
+    def create_coupon(self, type, value, user=None, valid_until=None):
         coupon = self.create(
             value=value,
             code=Coupon.generate_code(),
             type=type,
-            user=user
+            user=user,
+            valid_until=valid_until,
         )
         try:
             coupon.save()
@@ -34,10 +36,10 @@ class CouponManager(models.Manager):
         else:
             return coupon
 
-    def create_coupons(self, quantity, type, value):
+    def create_coupons(self, quantity, type, value, valid_until=None):
         coupons = []
         for i in range(quantity):
-            coupons.append(self.create_coupon(type, value))
+            coupons.append(self.create_coupon(type, value, None, valid_until))
         return coupons
 
 
@@ -50,6 +52,8 @@ class Coupon(models.Model):
         help_text=_("You may specify a user you want to restrict this coupon to."))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
+    valid_until = models.DateTimeField(_("Valid until"), blank=True, null=True,
+        help_text=_("Leave empty for coupons that never expire"))
 
     objects = CouponManager()
 
@@ -65,6 +69,9 @@ class Coupon(models.Model):
         if not self.code:
             self.code = Coupon.generate_code()
         super(Coupon, self).save(*args, **kwargs)
+
+    def expired(self):
+        return self.valid_until is not None and self.valid_until < timezone.now()
 
     @classmethod
     def generate_code(cls):

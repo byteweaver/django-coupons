@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.admin import widgets
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Coupon
@@ -9,6 +10,8 @@ class CouponGenerationForm(forms.Form):
     quantity = forms.IntegerField(label=_("Quantity"))
     value = forms.IntegerField(label=_("Value"))
     type = forms.ChoiceField(label=_("Type"), choices=COUPON_TYPES)
+    valid_until = forms.DateTimeField(label=_("Valid until"), required=False, widget=widgets.AdminSplitDateTime(),
+        help_text=_("Leave empty for coupons that never expire"))
 
 
 class CouponForm(forms.Form):
@@ -38,4 +41,6 @@ class CouponForm(forms.Form):
             raise forms.ValidationError(_("This code is not valid for your account."))
         if self.types is not None and coupon.type not in self.types:
             raise forms.ValidationError(_("This code is not meant to be used here."))
+        if coupon.expired():
+            raise forms.ValidationError(_("This code is expired."))
         return code
