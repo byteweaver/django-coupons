@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.test import TestCase
 
 from coupons.forms import CouponGenerationForm, CouponForm
@@ -44,6 +45,13 @@ class CouponFormTestCase(TestCase):
         self.coupon.redeemed_at = datetime.now()
         self.coupon.save()
 
+        form_data = {'code': self.coupon.code}
+        form = CouponForm(data=form_data, user=self.user)
+        self.assertFalse(form.is_valid())
+
+    def test_expired(self):
+        self.coupon.valid_until = timezone.now()-timedelta(1)
+        self.coupon.save()
         form_data = {'code': self.coupon.code}
         form = CouponForm(data=form_data, user=self.user)
         self.assertFalse(form.is_valid())
