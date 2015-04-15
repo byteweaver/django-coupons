@@ -1,11 +1,9 @@
-from datetime import datetime
 import random
 
 from django.conf import settings
 from django.db import IntegrityError
 from django.db import models
 from django.dispatch import Signal
-from django.utils.timezone import get_default_timezone
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -78,7 +76,7 @@ class Coupon(models.Model):
         return "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))
 
     def redeem(self, user=None):
-        self.redeemed_at = datetime.now(get_default_timezone())
+        self.redeemed_at = timezone.now()
         self.user = user
         self.save()
         redeem_done.send(sender=self.__class__, coupon=self)
