@@ -8,9 +8,14 @@
         margin: 5px !important;
     }
     .actions ul li {
-        display: inline;
         list-style-type: none;
-        padding-right: 20px;
+        padding: 5px;
+    }
+    .actions ul li:not(:last-child) {
+        border-bottom: 1px solid #ccc;
+    }
+    #changelist .actions label{
+        margin-left: 0;
     }
     #changelist table thead th {
         padding: 2px 5px;
