@@ -36,3 +36,7 @@ class CouponTestCase(TestCase):
         self.assertFalse(coupon.expired())
         coupon.valid_until = timezone.now()-timedelta(1)
         self.assertTrue(coupon.expired())
+
+    def test_str(self):
+        coupon = Coupon.objects.create_coupon('monetary', 100)
+        self.assertEqual(coupon.code, str(coupon))

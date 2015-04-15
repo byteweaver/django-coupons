@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -7,11 +7,13 @@ from django.test import TestCase
 from coupons.forms import CouponGenerationForm, CouponForm
 from coupons.models import Coupon
 
+
 class CouponGenerationFormTestCase(TestCase):
     def test_form(self):
         form_data = {'quantity': 23, 'value': 42, 'type': 'monetary'}
         form = CouponGenerationForm(data=form_data)
         self.assertTrue(form.is_valid())
+
 
 class CouponFormTestCase(TestCase):
     def setUp(self):
@@ -42,7 +44,7 @@ class CouponFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_reuse(self):
-        self.coupon.redeemed_at = datetime.now()
+        self.coupon.redeemed_at = timezone.now()
         self.coupon.save()
 
         form_data = {'code': self.coupon.code}
