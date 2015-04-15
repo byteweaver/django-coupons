@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import IntegrityError
 from django.db import models
 from django.dispatch import Signal
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -41,6 +42,7 @@ class CouponManager(models.Manager):
         return coupons
 
 
+@python_2_unicode_compatible
 class Coupon(models.Model):
     value = models.IntegerField(_("Value"), help_text=_("Arbitrary coupon value"))
     code = models.CharField(_("Code"), max_length=30, unique=True, blank=True,
@@ -60,7 +62,7 @@ class Coupon(models.Model):
         verbose_name = _("Coupon")
         verbose_name_plural = _("Coupons")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code
 
     def save(self, *args, **kwargs):
