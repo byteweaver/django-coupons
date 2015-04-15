@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-10 01:06-0600\n"
-"PO-Revision-Date: 2014-12-10 08:06+0100\n"
+"POT-Creation-Date: 2015-04-15 04:28-0500\n"
+"PO-Revision-Date: 2015-04-15 11:30+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: akuryou\n"
 "Language: German\n"
@@ -18,90 +18,102 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: admin.py:39
+#: coupons/admin.py:39
 msgid "Your coupons have been generated."
 msgstr "Ihre Gutscheine wurden erstellt."
 
-#: forms.py:9
+#: coupons/forms.py:10
 msgid "Quantity"
 msgstr "Menge"
 
-#: forms.py:10 models.py:43
+#: coupons/forms.py:11 coupons/models.py:47
 msgid "Value"
 msgstr "Wert"
 
-#: forms.py:11 models.py:46
+#: coupons/forms.py:12 coupons/models.py:50
 msgid "Type"
 msgstr "Typ"
 
-#: forms.py:15
+#: coupons/forms.py:13 coupons/models.py:55
+msgid "Valid until"
+msgstr "Gültig bis"
+
+#: coupons/forms.py:14 coupons/models.py:56
+msgid "Leave empty for coupons that never expire"
+msgstr "Leer lassen für Gutscheine ohne Ablaufdatum"
+
+#: coupons/forms.py:18
 msgid "Coupon code"
 msgstr "Gutscheincode"
 
-#: forms.py:33
+#: coupons/forms.py:36
 msgid "This code is not valid."
 msgstr "Dieser Code ist nicht gültig."
 
-#: forms.py:36
+#: coupons/forms.py:39
 msgid "This code has already been used."
 msgstr "Dieser Code wurde schon verwendet."
 
-#: forms.py:38
+#: coupons/forms.py:41
 msgid "This code is not valid for your account."
 msgstr "Dieser Code gilt nicht für Ihren Account."
 
-#: forms.py:40
-#| msgid "This code is not ment to be used here."
+#: coupons/forms.py:43
 msgid "This code is not meant to be used here."
 msgstr "Dieser Code kann hier nicht eingesetzt werden."
 
-#: models.py:43
+#: coupons/forms.py:45
+#| msgid "This code is not valid."
+msgid "This code is expired."
+msgstr "Dieser Code ist abgelaufen."
+
+#: coupons/models.py:47
 msgid "Arbitrary coupon value"
 msgstr "Beliebiger Gutscheinwert"
 
-#: models.py:44 templates/admin/generate_coupons.html:46
+#: coupons/models.py:48 coupons/templates/admin/generate_coupons.html:59
 msgid "Code"
 msgstr "Code"
 
-#: models.py:45
+#: coupons/models.py:49
 msgid "Leaving this field empty will generate a random code."
 msgstr ""
 "Falls dieses Feld leer gelassen wird wird ein zufälliger Code generiert."
 
-#: models.py:47
+#: coupons/models.py:51
 msgid "User"
 msgstr "Benutzer"
 
-#: models.py:48
+#: coupons/models.py:52
 msgid "You may specify a user you want to restrict this coupon to."
 msgstr ""
 "Sie können einen Benutzer angeben auf den der Gutschein beschränkt ist."
 
-#: models.py:49
+#: coupons/models.py:53
 msgid "Created at"
 msgstr "Erstellt am"
 
-#: models.py:50
+#: coupons/models.py:54
 msgid "Redeemed at"
 msgstr "Eingelöst am"
 
-#: models.py:56
+#: coupons/models.py:62
 msgid "Coupon"
 msgstr "Gutschein"
 
-#: models.py:57 templates/admin/generate_coupons.html:23
+#: coupons/models.py:63 coupons/templates/admin/generate_coupons.html:36
 msgid "Coupons"
 msgstr "Gutscheine"
 
-#: templates/admin/generate_coupons.html:22
+#: coupons/templates/admin/generate_coupons.html:35
 msgid "Home"
 msgstr "Home"
 
-#: templates/admin/generate_coupons.html:24
-#: templates/admin/generate_coupons.html:36
+#: coupons/templates/admin/generate_coupons.html:37
+#: coupons/templates/admin/generate_coupons.html:49
 msgid "Generate coupons"
 msgstr "Gutscheine erstellen"
 
-#: templates/admin/generate_coupons.html:45
+#: coupons/templates/admin/generate_coupons.html:58
 msgid "Id"
 msgstr "Id"
