@@ -7,11 +7,13 @@ from django.test import TestCase
 from coupons.forms import CouponGenerationForm, CouponForm
 from coupons.models import Coupon
 
+
 class CouponGenerationFormTestCase(TestCase):
     def test_form(self):
         form_data = {'quantity': 23, 'value': 42, 'type': 'monetary'}
         form = CouponGenerationForm(data=form_data)
         self.assertTrue(form.is_valid())
+
 
 class CouponFormTestCase(TestCase):
     def setUp(self):
