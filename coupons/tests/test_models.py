@@ -54,8 +54,11 @@ class CouponTestCase(TestCase):
     def test_expired(self):
         coupon = Coupon.objects.create_coupon('monetary', 100)
         self.assertFalse(coupon.expired())
+        self.assertEqual(Coupon.objects.expired().count(), 0)
         coupon.valid_until = timezone.now()-timedelta(1)
+        coupon.save()
         self.assertTrue(coupon.expired())
+        self.assertEqual(Coupon.objects.expired().count(), 1)
 
     def test_str(self):
         coupon = Coupon.objects.create_coupon('monetary', 100)
@@ -65,3 +68,12 @@ class CouponTestCase(TestCase):
         coupon = Coupon.objects.create_coupon('monetary', 100, None, None, "prefix-")
         print coupon.code
         self.assertTrue(coupon.code.startswith("prefix-"))
+
+    def test_used_unused(self):
+        coupon = Coupon.objects.create_coupon('monetary', 100)
+        self.assertEqual(Coupon.objects.used().count(), 0)
+        self.assertEqual(Coupon.objects.unused().count(), 1)
+        coupon.redeemed_at = timezone.now()
+        coupon.save()
+        self.assertEqual(Coupon.objects.used().count(), 1)
+        self.assertEqual(Coupon.objects.unused().count(), 0)

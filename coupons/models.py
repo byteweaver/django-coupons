@@ -48,6 +48,15 @@ class CouponManager(models.Manager):
             coupons.append(self.create_coupon(type, value, None, valid_until, prefix))
         return coupons
 
+    def used(self):
+        return self.exclude(redeemed_at=None)
+
+    def unused(self):
+        return self.filter(redeemed_at=None)
+
+    def expired(self):
+        return self.filter(valid_until__lt=timezone.now())
+
 
 @python_2_unicode_compatible
 class Coupon(models.Model):
