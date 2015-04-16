@@ -5,12 +5,32 @@ from django.utils import timezone
 from django.test import TestCase
 
 from coupons.models import Coupon
-from coupons.settings import CODE_LENGTH, CODE_CHARS
+from coupons.settings import (
+    CODE_LENGTH,
+    CODE_CHARS,
+    SEGMENT_LENGTH,
+    SEGMENT_SEPARATOR,
+)
 
 
 class CouponTestCase(TestCase):
     def test_generate_code(self):
         self.assertIsNotNone(re.match("^[%s]{%d}" % (CODE_CHARS, CODE_LENGTH,), Coupon.generate_code()))
+
+    def test_generate_code_segmented(self):
+        num_segments = CODE_LENGTH // SEGMENT_LENGTH  # full ones
+        num_rest = CODE_LENGTH - num_segments * SEGMENT_LENGTH
+        self.assertIsNotNone(
+            re.match(
+                "^([{chars}]{{{sl}}}{sep}){{{ns}}}[{chars}]{{{nr}}}$".format(
+                    chars=CODE_CHARS,
+                    sep=SEGMENT_SEPARATOR,
+                    sl=SEGMENT_LENGTH,
+                    ns=num_segments,
+                    nr=num_rest),
+                Coupon.generate_code(True)
+            )
+        )
 
     def test_save(self):
         coupon = Coupon(type='monetary', value=100)

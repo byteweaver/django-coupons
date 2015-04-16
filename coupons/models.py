@@ -8,7 +8,14 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from .settings import COUPON_TYPES, CODE_LENGTH, CODE_CHARS
+from .settings import (
+    COUPON_TYPES,
+    CODE_LENGTH,
+    CODE_CHARS,
+    SEGMENTED_CODES,
+    SEGMENT_LENGTH,
+    SEGMENT_SEPARATOR,
+)
 
 
 try:
@@ -74,8 +81,13 @@ class Coupon(models.Model):
         return self.valid_until is not None and self.valid_until < timezone.now()
 
     @classmethod
-    def generate_code(cls):
-        return "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))
+    def generate_code(cls, segmented=SEGMENTED_CODES):
+        code = "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))
+        if segmented:
+            code = SEGMENT_SEPARATOR.join([code[i:i+SEGMENT_LENGTH] for i in range(0, len(code), SEGMENT_LENGTH)])
+            return code
+        else:
+            return code
 
     def redeem(self, user=None):
         self.redeemed_at = timezone.now()
