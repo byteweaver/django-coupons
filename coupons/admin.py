@@ -36,7 +36,8 @@ class GenerateCouponsAdminView(TemplateView):
                     form.cleaned_data['type'],
                     form.cleaned_data['value'],
                     form.cleaned_data['valid_until'],
-                    form.cleaned_data['prefix']
+                    form.cleaned_data['prefix'],
+                    form.cleaned_data['campaign'],
                 )
                 messages.success(self.request, _("Your coupons have been generated."))
         else:
