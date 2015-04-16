@@ -66,7 +66,6 @@ class CouponTestCase(TestCase):
 
     def test_prefix(self):
         coupon = Coupon.objects.create_coupon('monetary', 100, None, None, "prefix-")
-        print coupon.code
         self.assertTrue(coupon.code.startswith("prefix-"))
 
     def test_used_unused(self):
