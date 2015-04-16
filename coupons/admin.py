@@ -5,12 +5,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import TemplateView
 
 from .forms import CouponGenerationForm
-from .models import Coupon
+from .models import Coupon, Campaign
 
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at', 'valid_until']
-    list_filter = ['type', 'created_at', 'redeemed_at', 'valid_until']
+    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at', 'valid_until', 'campaign']
+    list_filter = ['type', 'campaign', 'created_at', 'redeemed_at', 'valid_until']
     raw_id_fields = ('user',)
     search_fields = ('user__username', 'user__email', 'code', 'value')
 
@@ -36,7 +36,8 @@ class GenerateCouponsAdminView(TemplateView):
                     form.cleaned_data['type'],
                     form.cleaned_data['value'],
                     form.cleaned_data['valid_until'],
-                    form.cleaned_data['prefix']
+                    form.cleaned_data['prefix'],
+                    form.cleaned_data['campaign'],
                 )
                 messages.success(self.request, _("Your coupons have been generated."))
         else:
@@ -49,4 +50,25 @@ class GenerateCouponsAdminView(TemplateView):
         return self.render_to_response(context)
 
 
+class CampaignAdmin(admin.ModelAdmin):
+    list_display = ['name', 'num_coupons', 'num_coupons_used', 'num_coupons_unused', 'num_coupons_expired']
+
+    def num_coupons(self, obj):
+        return obj.coupons.count()
+    num_coupons.short_description = _("coupons")
+
+    def num_coupons_used(self, obj):
+        return obj.coupons.used().count()
+    num_coupons_used.short_description = _("used")
+
+    def num_coupons_unused(self, obj):
+        return obj.coupons.used().count()
+    num_coupons_unused.short_description = _("unused")
+
+    def num_coupons_expired(self, obj):
+        return obj.coupons.expired().count()
+    num_coupons_expired.short_description = _("expired")
+
+
 admin.site.register(Coupon, CouponAdmin)
+admin.site.register(Campaign, CampaignAdmin)

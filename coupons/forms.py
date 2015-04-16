@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.admin import widgets
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Coupon
+from .models import Coupon, Campaign
 from .settings import COUPON_TYPES
 
 
@@ -13,6 +13,7 @@ class CouponGenerationForm(forms.Form):
     valid_until = forms.DateTimeField(label=_("Valid until"), required=False, widget=widgets.AdminSplitDateTime(),
         help_text=_("Leave empty for coupons that never expire"))
     prefix = forms.CharField(label="Prefix", required=False)
+    campaign = forms.ModelChoiceField(label=_("Campaign"), queryset=Campaign.objects.all(), required=False)
 
 
 class CouponForm(forms.Form):

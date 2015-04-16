@@ -26,26 +26,27 @@ redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
-    def create_coupon(self, type, value, user=None, valid_until=None, prefix=""):
+    def create_coupon(self, type, value, user=None, valid_until=None, prefix="", campaign=None):
         coupon = self.create(
             value=value,
             code=Coupon.generate_code(prefix),
             type=type,
             user=user,
             valid_until=valid_until,
+            campaign=campaign,
         )
         try:
             coupon.save()
         except IntegrityError:
             # Try again with other code
-            return Coupon.objects.create_coupon(type, value, user, valid_until, prefix)
+            return Coupon.objects.create_coupon(type, value, user, valid_until, prefix, campaign)
         else:
             return coupon
 
-    def create_coupons(self, quantity, type, value, valid_until=None, prefix=""):
+    def create_coupons(self, quantity, type, value, valid_until=None, prefix="", campaign=None):
         coupons = []
         for i in range(quantity):
-            coupons.append(self.create_coupon(type, value, None, valid_until, prefix))
+            coupons.append(self.create_coupon(type, value, None, valid_until, prefix, campaign))
         return coupons
 
     def used(self):
@@ -70,6 +71,7 @@ class Coupon(models.Model):
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
     valid_until = models.DateTimeField(_("Valid until"), blank=True, null=True,
         help_text=_("Leave empty for coupons that never expire"))
+    campaign = models.ForeignKey('Campaign', verbose_name=_("Campaign"), blank=True, null=True, related_name='coupons')
 
     objects = CouponManager()
 
@@ -103,3 +105,17 @@ class Coupon(models.Model):
         self.user = user
         self.save()
         redeem_done.send(sender=self.__class__, coupon=self)
+
+
+@python_2_unicode_compatible
+class Campaign(models.Model):
+    name = models.CharField(_("Name"), max_length=255, unique=True)
+    description = models.TextField(_("Description"), blank=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _("Campaign")
+        verbose_name_plural = _("Campaigns")
+
+    def __str__(self):
+        return self.name
