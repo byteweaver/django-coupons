@@ -4,7 +4,7 @@ import re
 from django.utils import timezone
 from django.test import TestCase
 
-from coupons.models import Coupon
+from coupons.models import Coupon, Campaign
 from coupons.settings import (
     CODE_LENGTH,
     CODE_CHARS,
@@ -76,3 +76,10 @@ class CouponTestCase(TestCase):
         coupon.save()
         self.assertEqual(Coupon.objects.used().count(), 1)
         self.assertEqual(Coupon.objects.unused().count(), 0)
+
+
+class CampaignTestCase(TestCase):
+    def test_str(self):
+        campaign = Campaign(name="test")
+        campaign.save()
+        self.assertEqual("test", str(campaign))
