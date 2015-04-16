@@ -26,10 +26,10 @@ redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
-    def create_coupon(self, type, value, user=None, valid_until=None):
+    def create_coupon(self, type, value, user=None, valid_until=None, prefix=""):
         coupon = self.create(
             value=value,
-            code=Coupon.generate_code(),
+            code=Coupon.generate_code(prefix),
             type=type,
             user=user,
             valid_until=valid_until,
@@ -38,14 +38,14 @@ class CouponManager(models.Manager):
             coupon.save()
         except IntegrityError:
             # Try again with other code
-            return Coupon.objects.create_coupon(type, value, user)
+            return Coupon.objects.create_coupon(type, value, user, valid_until, prefix)
         else:
             return coupon
 
-    def create_coupons(self, quantity, type, value, valid_until=None):
+    def create_coupons(self, quantity, type, value, valid_until=None, prefix=""):
         coupons = []
         for i in range(quantity):
-            coupons.append(self.create_coupon(type, value, None, valid_until))
+            coupons.append(self.create_coupon(type, value, None, valid_until, prefix))
         return coupons
 
 
@@ -81,13 +81,13 @@ class Coupon(models.Model):
         return self.valid_until is not None and self.valid_until < timezone.now()
 
     @classmethod
-    def generate_code(cls, segmented=SEGMENTED_CODES):
+    def generate_code(cls, prefix="", segmented=SEGMENTED_CODES):
         code = "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))
         if segmented:
             code = SEGMENT_SEPARATOR.join([code[i:i+SEGMENT_LENGTH] for i in range(0, len(code), SEGMENT_LENGTH)])
-            return code
+            return prefix + code
         else:
-            return code
+            return prefix + code
 
     def redeem(self, user=None):
         self.redeemed_at = timezone.now()
