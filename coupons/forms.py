@@ -12,6 +12,7 @@ class CouponGenerationForm(forms.Form):
     type = forms.ChoiceField(label=_("Type"), choices=COUPON_TYPES)
     valid_until = forms.DateTimeField(label=_("Valid until"), required=False, widget=widgets.AdminSplitDateTime(),
         help_text=_("Leave empty for coupons that never expire"))
+    prefix = forms.CharField(label="Prefix", required=False)
 
 
 class CouponForm(forms.Form):
