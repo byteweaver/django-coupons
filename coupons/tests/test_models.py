@@ -28,7 +28,7 @@ class CouponTestCase(TestCase):
                     sl=SEGMENT_LENGTH,
                     ns=num_segments,
                     nr=num_rest),
-                Coupon.generate_code(True)
+                Coupon.generate_code("", True)
             )
         )
 
@@ -60,3 +60,8 @@ class CouponTestCase(TestCase):
     def test_str(self):
         coupon = Coupon.objects.create_coupon('monetary', 100)
         self.assertEqual(coupon.code, str(coupon))
+
+    def test_prefix(self):
+        coupon = Coupon.objects.create_coupon('monetary', 100, None, None, "prefix-")
+        print coupon.code
+        self.assertTrue(coupon.code.startswith("prefix-"))
