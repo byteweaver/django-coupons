@@ -16,6 +16,23 @@ A reuseable Django application for coupon gereration and handling
 
 ##Changelog
 
+###V 1.1.0
+ * campaigns  
+   Coupons may now be associated with campaigns for better tracking
+ * segmented coupon codes  
+   Coupon codes may now be segmented like "xxxx-xxxx-xx"  
+   New settings (defaults):
+    * COUPONS_SEGMENTED_CODES (False)
+    * COUPONS_SEGMENT_LENGTH (4)
+    * COUPONS_SEGMENT_SEPARATOR ("-")
+ * prefixes for coupon codes  
+   Coupons may now be auto prefixed upon creation
+ * expiration date for coupons  
+   Coupons can now expire, see valid_until field
+ * migrations for south and django 1.7+ included
+ * django 1.8 now officially supported
+ * minor fixes
+
 ###V 1.0.4
 redeem_done signal
 
