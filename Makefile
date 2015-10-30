@@ -3,12 +3,12 @@ PIP_BIN=$(VIRTUALENV_FOLDER)/bin/pip
 PYTHON_BIN=$(VIRTUALENV_FOLDER)/bin/python
 COVERAGE_BINARY=$(VIRTUALENV_FOLDER)/bin/coverage
 
-all: environment reqirements
+all: test
 
 environment:
 	test -d "$(VIRTUALENV_FOLDER)" || virtualenv $(VIRTUALENV_FOLDER)
 
-requirements:
+requirements: environment
 	$(PIP_BIN) install -r requirements.txt
 
 test: requirements
