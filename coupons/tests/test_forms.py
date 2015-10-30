@@ -52,7 +52,7 @@ class CouponFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_expired(self):
-        self.coupon.valid_until = timezone.now()-timedelta(1)
+        self.coupon.valid_until = timezone.now() - timedelta(1)
         self.coupon.save()
         form_data = {'code': self.coupon.code}
         form = CouponForm(data=form_data, user=self.user)

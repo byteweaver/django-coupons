@@ -62,14 +62,17 @@ class CouponManager(models.Manager):
 @python_2_unicode_compatible
 class Coupon(models.Model):
     value = models.IntegerField(_("Value"), help_text=_("Arbitrary coupon value"))
-    code = models.CharField(_("Code"), max_length=30, unique=True, blank=True,
+    code = models.CharField(
+        _("Code"), max_length=30, unique=True, blank=True,
         help_text=_("Leaving this field empty will generate a random code."))
     type = models.CharField(_("Type"), max_length=20, choices=COUPON_TYPES)
-    user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True,
+    user = models.ForeignKey(
+        user_model, verbose_name=_("User"), null=True, blank=True,
         help_text=_("You may specify a user you want to restrict this coupon to."))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
-    valid_until = models.DateTimeField(_("Valid until"), blank=True, null=True,
+    valid_until = models.DateTimeField(
+        _("Valid until"), blank=True, null=True,
         help_text=_("Leave empty for coupons that never expire"))
     campaign = models.ForeignKey('Campaign', verbose_name=_("Campaign"), blank=True, null=True, related_name='coupons')
 
@@ -95,7 +98,7 @@ class Coupon(models.Model):
     def generate_code(cls, prefix="", segmented=SEGMENTED_CODES):
         code = "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))
         if segmented:
-            code = SEGMENT_SEPARATOR.join([code[i:i+SEGMENT_LENGTH] for i in range(0, len(code), SEGMENT_LENGTH)])
+            code = SEGMENT_SEPARATOR.join([code[i:i + SEGMENT_LENGTH] for i in range(0, len(code), SEGMENT_LENGTH)])
             return prefix + code
         else:
             return prefix + code
