@@ -1,16 +1,32 @@
-*.log
-*.pot
+# python
 *.pyc
+__pycache__/
+
+# vim
 *.swp
 *.swo
+
+# pip
 *.egg-info
 *.egg
-local_settings.py
-/env/
 /build/
 /dist/
+
+# virtualenv
+/env/
+
+# logfiles
+*.log
+
+# testing
+.tox/
+
+# coverage
+htmlcov/
 coverage/
 .coverage
+
+# others
+*.pot
+local_settings.py
 .ropeproject/
-.tox/
-htmlcov/
