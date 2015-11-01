@@ -69,6 +69,7 @@ class Coupon(models.Model):
     users = models.ManyToManyField(
         user_model, verbose_name=_("Users"), null=True, blank=True, through='CouponUser',
         help_text=_("You may specify a list of users you want to restrict this coupon to."))
+    users_limit = models.PositiveIntegerField(_("User limit"), default=1)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
     valid_until = models.DateTimeField(
