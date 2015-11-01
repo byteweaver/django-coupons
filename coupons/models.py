@@ -66,9 +66,9 @@ class Coupon(models.Model):
         _("Code"), max_length=30, unique=True, blank=True,
         help_text=_("Leaving this field empty will generate a random code."))
     type = models.CharField(_("Type"), max_length=20, choices=COUPON_TYPES)
-    user = models.ForeignKey(
-        user_model, verbose_name=_("User"), null=True, blank=True,
-        help_text=_("You may specify a user you want to restrict this coupon to."))
+    users = models.ManyToManyField(
+        user_model, verbose_name=_("Users"), null=True, blank=True, through='CouponUser',
+        help_text=_("You may specify a list of users you want to restrict this coupon to."))
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
     valid_until = models.DateTimeField(
@@ -122,3 +122,9 @@ class Campaign(models.Model):
 
     def __str__(self):
         return self.name
+
+
+@python_2_unicode_compatible
+class CouponUser(models.Model):
+    coupon = models.ForeignKey(Coupon)
+    user = models.ForeignKey(user_model, null=True, blank=True)
