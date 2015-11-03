@@ -26,12 +26,11 @@ redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
-    def create_coupon(self, type, value, user=None, valid_until=None, prefix="", campaign=None):
+    def create_coupon(self, type, value, users=None, valid_until=None, prefix="", campaign=None):
         coupon = self.create(
             value=value,
             code=Coupon.generate_code(prefix),
             type=type,
-            user=user,
             valid_until=valid_until,
             campaign=campaign,
         )
@@ -39,9 +38,9 @@ class CouponManager(models.Manager):
             coupon.save()
         except IntegrityError:
             # Try again with other code
-            return Coupon.objects.create_coupon(type, value, user, valid_until, prefix, campaign)
-        else:
-            return coupon
+            coupon = Coupon.objects.create_coupon(type, value, users, valid_until, prefix, campaign)
+        for user in users:
+            CouponUser(user=user, coupon=coupon).save()
 
     def create_coupons(self, quantity, type, value, valid_until=None, prefix="", campaign=None):
         coupons = []
