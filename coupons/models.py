@@ -103,9 +103,7 @@ class Coupon(models.Model):
             return prefix + code
 
     def redeem(self, user=None):
-        self.redeemed_at = timezone.now()
-        self.user = user
-        self.save()
+        CouponUser(coupon=self, user=user, redeemed_at=timezone.now()).save()
         redeem_done.send(sender=self.__class__, coupon=self)
 
 
