@@ -117,7 +117,12 @@ class Coupon(models.Model):
             return prefix + code
 
     def redeem(self, user=None):
-        CouponUser(coupon=self, user=user, redeemed_at=timezone.now()).save()
+        try:
+            coupon_user = self.users.get(user=user)
+        except CouponUser.DoesNotExist:
+            coupon_user = CouponUser(coupon=self, user=user)
+        coupon_user.redeemed_at = timezone.now()
+        coupon_user.save()
         redeem_done.send(sender=self.__class__, coupon=self)
 
 
