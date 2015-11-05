@@ -94,8 +94,9 @@ class UnlimitedCouponTestCase(TestCase):
 
     def test_redeem_with_user(self):
         self.coupon.redeem(self.user)
+        # coupon is not redeemed since it can be used unlimited times
+        self.assertFalse(self.coupon.is_redeemed)
         # coupon should be redeemed properly now
-        self.assertTrue(self.coupon.is_redeemed)
         self.assertEquals(self.coupon.users.count(), 1)
         self.assertIsInstance(self.coupon.users.first().redeemed_at, datetime)
         self.assertEquals(self.coupon.users.first().user, self.user)
