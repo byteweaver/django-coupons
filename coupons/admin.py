@@ -9,10 +9,13 @@ from .models import Coupon, Campaign
 
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at', 'valid_until', 'campaign']
-    list_filter = ['type', 'campaign', 'created_at', 'redeemed_at', 'valid_until']
-    raw_id_fields = ('user',)
-    search_fields = ('user__username', 'user__email', 'code', 'value')
+    list_display = ['created_at', 'code', 'type', 'value', 'user_count', 'user_limit', 'redeemed_at', 'valid_until', 'campaign']
+    list_filter = ['type', 'campaign', 'created_at', 'valid_until']
+    raw_id_fields = ()
+    search_fields = ('code', 'value')
+
+    def user_count(self, inst):
+        return inst.users.count()
 
     def get_urls(self):
         urls = super(CouponAdmin, self).get_urls()
