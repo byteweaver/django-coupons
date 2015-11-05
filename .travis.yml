@@ -11,9 +11,6 @@ env:
   - "TOXENV=py27-1.7.X"
   - "TOXENV=py34-1.6.X"
   - "TOXENV=py27-1.6.X"
-  - "TOXENV=py34-1.5.X"
-  - "TOXENV=py27-1.5.X"
-  - "TOXENV=py27-1.4.X"
 cache:
   directories:
     - $HOME/.cache/pip

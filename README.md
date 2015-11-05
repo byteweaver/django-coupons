@@ -16,6 +16,10 @@ A reuseable Django application for coupon gereration and handling
 
 ##Changelog
 
+###V 1.2.0
+
+* Drop support for Django 1.4 and 1.5
+
 ###V 1.1.0
  * campaigns  
    Coupons may now be associated with campaigns for better tracking
