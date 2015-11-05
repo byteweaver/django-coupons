@@ -100,6 +100,13 @@ class Coupon(models.Model):
             redeemed_at__isnull=False
         ).count() >= self.user_limit
 
+    @property
+    def redeemed_at(self):
+        try:
+            return self.users.filter(redeemed_at__isnull=False).order_by('redeemed_at').last().redeemed_at
+        except self.users.through.DoesNotExist:
+            return None
+
     @classmethod
     def generate_code(cls, prefix="", segmented=SEGMENTED_CODES):
         code = "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))
