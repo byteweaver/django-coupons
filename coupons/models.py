@@ -127,7 +127,7 @@ class Campaign(models.Model):
 @python_2_unicode_compatible
 class CouponUser(models.Model):
     coupon = models.ForeignKey(Coupon)
-    user = models.ForeignKey(user_model, null=True, blank=True)
+    user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
 
     def __str__(self):
