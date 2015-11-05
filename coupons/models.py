@@ -26,7 +26,7 @@ redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
-    def create_coupon(self, type, value, users=[], valid_until=None, prefix="", campaign=None):
+    def create_coupon(self, type, value, users=[], valid_until=None, prefix="", campaign=None, user_limit=None):
         coupon = self.create(
             value=value,
             code=Coupon.generate_code(prefix),
@@ -34,6 +34,8 @@ class CouponManager(models.Manager):
             valid_until=valid_until,
             campaign=campaign,
         )
+        if user_limit is not None:  # otherwise use default value of model
+            coupon.user_limit = user_limit
         try:
             coupon.save()
         except IntegrityError:
