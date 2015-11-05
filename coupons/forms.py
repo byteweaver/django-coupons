@@ -1,8 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Coupon, Campaign
-from .validators import validate_redeem
+from .models import Coupon, CouponUser, Campaign
 from .settings import COUPON_TYPES
 
 
@@ -42,8 +41,19 @@ class CouponForm(forms.Form):
             raise forms.ValidationError(_("This code is not valid."))
         self.coupon = coupon
 
-        validate_redeem(self.coupon, self.user)
+        if coupon.is_redeemed:
+            raise forms.ValidationError(_("This code has already been used."))
 
+        try:  # check if there is a user bound coupon existing
+            user_coupon = coupon.users.get(user=self.user)
+            if user_coupon.redeemed_at is not None:
+                raise forms.ValidationError(_("This code has already been used by your account."))
+        except CouponUser.DoesNotExist:
+            if coupon.user_limit is not 0:  # zero means no limit of user count
+                if coupon.user_limit is coupon.users.count():  # only user bound coupons left and you don't have one
+                    raise forms.ValidationError(_("This code is not valid for your account."))
+                if coupon.user_limit is coupon.users.filter(redeemed_at__isnull=True).count():  # all coupons redeemed
+                    raise forms.ValidationError(_("This code has already been used."))
         if self.types is not None and coupon.type not in self.types:
             raise forms.ValidationError(_("This code is not meant to be used here."))
         if coupon.expired():
