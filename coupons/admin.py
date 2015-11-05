@@ -13,7 +13,9 @@ class CouponUserInline(admin.TabularInline):
     extra = 0
 
     def get_max_num(self, request, obj=None, **kwargs):
-        return obj.user_limit
+        if obj:
+            return obj.user_limit
+        return None  # disable limit for new objects (e.g. admin add)
 
 
 class CouponAdmin(admin.ModelAdmin):
