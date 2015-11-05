@@ -5,11 +5,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import TemplateView
 
 from .forms import CouponGenerationForm
-from .models import Coupon, Campaign
+from .models import Coupon, CouponUser, Campaign
 
 
 class CouponUserInline(admin.TabularInline):
-    model = Coupon.users.through
+    model = CouponUser
     extra = 0
 
     def get_max_num(self, request, obj=None, **kwargs):

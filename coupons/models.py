@@ -68,9 +68,6 @@ class Coupon(models.Model):
         _("Code"), max_length=30, unique=True, blank=True,
         help_text=_("Leaving this field empty will generate a random code."))
     type = models.CharField(_("Type"), max_length=20, choices=COUPON_TYPES)
-    users = models.ManyToManyField(
-        user_model, verbose_name=_("Users"), null=True, blank=True, through='CouponUser',
-        help_text=_("You may specify a list of users you want to restrict this coupon to."))
     user_limit = models.PositiveIntegerField(_("User limit"), default=1)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     valid_until = models.DateTimeField(
@@ -126,7 +123,7 @@ class Campaign(models.Model):
 
 @python_2_unicode_compatible
 class CouponUser(models.Model):
-    coupon = models.ForeignKey(Coupon)
+    coupon = models.ForeignKey(Coupon, related_name='users')
     user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
 
