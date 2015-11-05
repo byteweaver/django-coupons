@@ -41,6 +41,11 @@ class CouponForm(forms.Form):
             raise forms.ValidationError(_("This code is not valid."))
         self.coupon = coupon
 
+        if self.user is None and coupon.user_limit is not 1:
+            # coupons with can be used only once can be used without tracking the user, otherwise there is no chance
+            # of excluding an unknown user from multiple usages.
+            raise forms.ValidationError(_("The server must provide an user to this form to allow you to use this code. Maybe you need to sign in?"))
+
         if coupon.is_redeemed:
             raise forms.ValidationError(_("This code has already been used."))
 
