@@ -46,3 +46,23 @@ class DefaultCouponTestCase(TestCase):
         self.assertIsNone(self.coupon.users.first().user)
         # form should be invalid after redeem
         self.assertTrue(form.is_valid())
+
+
+class SingleUserCouponTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(username="user1")
+        self.coupon = Coupon.objects.create_coupon('monetary', 100, self.user)
+
+    def test_user_limited_coupon(self):
+        self.assertEquals(self.coupon.users.count(), 1)
+        self.assertEquals(self.coupon.users.first().user, self.user)
+        # not redeemed yet
+        self.assertIsNone(self.coupon.users.first().redeemed_at)
+
+    def test_redeem_with_user(self):
+        self.coupon.redeem(self.user)
+        # coupon should be redeemed properly now
+        self.assertTrue(self.coupon.is_redeemed)
+        self.assertEquals(self.coupon.users.count(), 1)
+        self.assertIsInstance(self.coupon.users.first().redeemed_at, datetime)
+        self.assertEquals(self.coupon.users.first().user, self.user)
