@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.models import User
+from django.forms import ValidationError
 from django.test import TestCase
 
 from coupons.forms import CouponForm
@@ -66,3 +67,12 @@ class SingleUserCouponTestCase(TestCase):
         self.assertEquals(self.coupon.users.count(), 1)
         self.assertIsInstance(self.coupon.users.first().redeemed_at, datetime)
         self.assertEquals(self.coupon.users.first().user, self.user)
+
+    def test_form_without_user(self):
+        """ This should fail since the coupon is bound to an user, but we do not provide any user. """
+        form = CouponForm(data={'code': self.coupon.code})
+        self.assertFalse(form.is_valid())
+        self.assertEquals(
+            str(form.errors.as_data()),
+            "{'code': [ValidationError(['This code is not valid for your account.'])]}"
+        )
