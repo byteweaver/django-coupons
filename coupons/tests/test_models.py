@@ -72,7 +72,7 @@ class CouponTestCase(TestCase):
         coupon = Coupon.objects.create_coupon('monetary', 100)
         self.assertEqual(Coupon.objects.used().count(), 0)
         self.assertEqual(Coupon.objects.unused().count(), 1)
-        coupon.redeemed_at = timezone.now()
+        coupon.redeem()
         coupon.save()
         self.assertEqual(Coupon.objects.used().count(), 1)
         self.assertEqual(Coupon.objects.unused().count(), 0)

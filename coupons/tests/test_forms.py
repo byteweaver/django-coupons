@@ -44,7 +44,7 @@ class CouponFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_reuse(self):
-        self.coupon.redeemed_at = timezone.now()
+        self.coupon.redeem()
         self.coupon.save()
 
         form_data = {'code': self.coupon.code}
