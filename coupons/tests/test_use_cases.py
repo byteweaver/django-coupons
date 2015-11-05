@@ -100,6 +100,12 @@ class UnlimitedCouponTestCase(TestCase):
         self.assertIsInstance(self.coupon.users.first().redeemed_at, datetime)
         self.assertEquals(self.coupon.users.first().user, self.user)
 
+    def test_redeem_with_multiple_users(self):
+        for i in range(100):
+            user = User.objects.create(username="test%s" % (i))
+            form = CouponForm(data={'code': self.coupon.code}, user=user)
+            self.assertTrue(form.is_valid())
+
     def test_form_without_user(self):
         """ This should fail since we cannot track single use of a coupon without an user. """
         form = CouponForm(data={'code': self.coupon.code})
