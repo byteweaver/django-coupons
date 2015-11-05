@@ -73,6 +73,6 @@ class SingleUserCouponTestCase(TestCase):
         form = CouponForm(data={'code': self.coupon.code})
         self.assertFalse(form.is_valid())
         self.assertEquals(
-            str(form.errors.as_data()),
-            "{'code': [ValidationError(['This code is not valid for your account.'])]}"
+            form.errors,
+            {'code': ['This code is not valid for your account.']}
         )
