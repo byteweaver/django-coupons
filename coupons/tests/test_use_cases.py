@@ -123,5 +123,5 @@ class UnlimitedCouponTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEquals(
             form.errors,
-            {'code': ['This code has already been used.']}
+            {'code': ['This code has already been used by your account.']}
         )
