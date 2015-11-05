@@ -6,7 +6,7 @@ from django.db import migrations
 
 def migrate_user_coupons(apps, schema_editor):
     Coupon = apps.get_model('coupons', 'Coupon')
-    UserCoupon = apps.get_model('coupons', 'UserCoupon')
+    UserCoupon = apps.get_model('coupons', 'CouponUser')
     for coupon in Coupon.objects.all():
         if coupon.user is not None or coupon.redeemed_at is not None:
             UserCoupon.objects.create(
