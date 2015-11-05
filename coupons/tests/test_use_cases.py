@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django.contrib.auth.models import User
-from django.forms import ValidationError
 from django.test import TestCase
 
 from coupons.forms import CouponForm
