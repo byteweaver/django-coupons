@@ -23,10 +23,12 @@ class DefaultCouponTestCase(TestCase):
     def test_redeem_via_form(self):
         # form should be valid
         self.assertTrue(self.form.is_valid())
-        # perform redeem via form
-        self.form.save()
+        # perform redeem
+        self.coupon.redeem(self.user)
         # coupon should be redeemed properly now
         self.assertTrue(self.coupon.is_redeemed)
         self.assertEquals(self.coupon.users.count(), 1)
         self.assertIsInstance(self.coupon.users.first().redeemed_at, datetime)
         self.assertEquals(self.coupon.users.first().user, self.user)
+        # form should be invalid after redeem
+        self.assertTrue(self.form.is_valid())
