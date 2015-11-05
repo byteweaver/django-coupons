@@ -16,5 +16,5 @@ def validate_redeem(coupon, user=None):
         if coupon.user_limit is not 0:  # zero means no limit of user count
             if coupon.user_limit is coupon.users.count():  # only user bound coupons left and you don't have one
                 raise ValidationError(_("This code is not valid for your account."))
-            if coupon.user_limt is coupon.users.filter(redeemed_at__isnull=True).count():  # all coupons redeemed
+            if coupon.user_limit is coupon.users.filter(redeemed_at__isnull=True).count():  # all coupons redeemed
                 raise ValidationError(_("This code has already been used."))
