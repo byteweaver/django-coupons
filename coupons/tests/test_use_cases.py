@@ -75,3 +75,13 @@ class SingleUserCouponTestCase(TestCase):
             form.errors,
             {'code': ['This code is not valid for your account.']}
         )
+
+    def test_redeem_with_user_twice(self):
+        self.test_redeem_with_user()
+        # try to redeem again with form
+        form = CouponForm(data={'code': self.coupon.code}, user=self.user)
+        self.assertFalse(form.is_valid())
+        self.assertEquals(
+            form.errors,
+            {'code': ['This code has already been used.']}
+        )
