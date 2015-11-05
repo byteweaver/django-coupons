@@ -8,11 +8,21 @@ from .forms import CouponGenerationForm
 from .models import Coupon, Campaign
 
 
+class CouponUserInline(admin.TabularInline):
+    model = Coupon.users.through
+    extra = 0
+
+    def get_max_num(self, request, obj=None, **kwargs):
+        return obj.user_limit
+
+
 class CouponAdmin(admin.ModelAdmin):
     list_display = ['created_at', 'code', 'type', 'value', 'user_count', 'user_limit', 'redeemed_at', 'valid_until', 'campaign']
     list_filter = ['type', 'campaign', 'created_at', 'valid_until']
     raw_id_fields = ()
     search_fields = ('code', 'value')
+    inlines = (CouponUserInline,)
+    exclude = ('users',)
 
     def user_count(self, inst):
         return inst.users.count()
