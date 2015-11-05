@@ -148,5 +148,8 @@ class CouponUser(models.Model):
     user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
 
+    class Meta:
+        unique_together = (('coupon', 'user'),)
+
     def __str__(self):
         return str(self.user)
