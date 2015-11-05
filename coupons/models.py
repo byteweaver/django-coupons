@@ -93,6 +93,13 @@ class Coupon(models.Model):
     def expired(self):
         return self.valid_until is not None and self.valid_until < timezone.now()
 
+    @property
+    def is_redeemed(self):
+        """ Returns true is a coupon is redeemed (completely for all users) otherwise returns false. """
+        return self.users.filter(
+            redeemed_at__isnull=False
+        ).count() >= self.user_limit
+
     @classmethod
     def generate_code(cls, prefix="", segmented=SEGMENTED_CODES):
         code = "".join(random.choice(CODE_CHARS) for i in range(CODE_LENGTH))

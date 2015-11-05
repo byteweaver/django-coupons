@@ -17,7 +17,9 @@ class CouponUserInline(admin.TabularInline):
 
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['created_at', 'code', 'type', 'value', 'user_count', 'user_limit', 'redeemed_at', 'valid_until', 'campaign']
+    list_display = [
+        'created_at', 'code', 'type', 'value', 'user_count', 'user_limit', 'is_redeemed', 'valid_until', 'campaign'
+    ]
     list_filter = ['type', 'campaign', 'created_at', 'valid_until']
     raw_id_fields = ()
     search_fields = ('code', 'value')
