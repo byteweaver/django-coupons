@@ -11,6 +11,13 @@ class Migration(DataMigration):
         # Note: Don't use "from appname.models import ModelName". 
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
+        for coupon in orm['coupons.Coupon'].objects.all():
+            if coupon.user is not None or coupon.redeemed_at is not None:
+                orm['coupons.UserCoupon'].objects.create(
+                    coupon=coupon,
+                    user=coupon.user,
+                    redeemed_at=coupon.redeemed_at
+                )
 
     def backwards(self, orm):
         "Write your backwards methods here."
