@@ -52,10 +52,10 @@ class CouponManager(models.Manager):
         return coupons
 
     def used(self):
-        return self.exclude(redeemed_at=None)
+        return self.exclude(users__redeemed_at__isnull=True)
 
     def unused(self):
-        return self.filter(redeemed_at=None)
+        return self.filter(users__redeemed_at__isnull=True)
 
     def expired(self):
         return self.filter(valid_until__lt=timezone.now())
