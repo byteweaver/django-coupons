@@ -26,6 +26,10 @@ The difference is defined by the number of possible redeems and if they are boun
 
 ##Changelog
 
+###V 1.2.0
+
+* Drop support for Django 1.4 and 1.5
+
 ###V 1.1.0
  * campaigns
    Coupons may now be associated with campaigns for better tracking
