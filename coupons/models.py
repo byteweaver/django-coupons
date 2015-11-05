@@ -100,7 +100,7 @@ class Coupon(models.Model):
         """ Returns true is a coupon is redeemed (completely for all users) otherwise returns false. """
         return self.users.filter(
             redeemed_at__isnull=False
-        ).count() >= self.user_limit
+        ).count() >= self.user_limit and self.user_limit is not 0
 
     @property
     def redeemed_at(self):
