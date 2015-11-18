@@ -122,7 +122,11 @@ class Coupon(models.Model):
         try:
             coupon_user = self.users.get(user=user)
         except CouponUser.DoesNotExist:
-            coupon_user = CouponUser(coupon=self, user=user)
+            try:  # silently fix unbouned or nulled coupon users
+                coupon_user = self.users.get(user__isnull=True)
+                coupon_user.user = user
+            except CouponUser.DoesNotExist:
+                coupon_user = CouponUser(coupon=self, user=user)
         coupon_user.redeemed_at = timezone.now()
         coupon_user.save()
         redeem_done.send(sender=self.__class__, coupon=self)
