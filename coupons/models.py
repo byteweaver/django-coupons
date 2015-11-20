@@ -44,7 +44,8 @@ class CouponManager(models.Manager):
         if not isinstance(users, list):
             users = [users]
         for user in users:
-            CouponUser(user=user, coupon=coupon).save()
+            if user:
+                CouponUser(user=user, coupon=coupon).save()
         return coupon
 
     def create_coupons(self, quantity, type, value, valid_until=None, prefix="", campaign=None):
