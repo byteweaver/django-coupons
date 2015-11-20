@@ -60,7 +60,7 @@ class CouponForm(forms.Form):
                 # only user bound coupons left and you don't have one
                 if coupon.user_limit is coupon.users.filter(user__isnull=False).count():
                     raise forms.ValidationError(_("This code is not valid for your account."))
-                if coupon.user_limit is coupon.users.filter(redeemed_at__isnull=True).count():  # all coupons redeemed
+                if coupon.user_limit is coupon.users.filter(redeemed_at__isnull=False).count():  # all coupons redeemed
                     raise forms.ValidationError(_("This code has already been used."))
         if self.types is not None and coupon.type not in self.types:
             raise forms.ValidationError(_("This code is not meant to be used here."))
