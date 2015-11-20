@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.test import TestCase
 
 from coupons.forms import CouponGenerationForm, CouponForm
-from coupons.models import Coupon
+from coupons.models import Coupon, CouponUser
 
 
 class CouponGenerationFormTestCase(TestCase):
@@ -57,3 +57,21 @@ class CouponFormTestCase(TestCase):
         form_data = {'code': self.coupon.code}
         form = CouponForm(data=form_data, user=self.user)
         self.assertFalse(form.is_valid())
+
+
+class UnboundCouponFormTestCase(TestCase):
+    def setUp(self):
+        self.user = User(username="user1")
+        self.user.save()
+        self.coupon = Coupon.objects.create_coupon('monetary', 100)
+
+    def test_none_coupon_user(self):
+        CouponUser.objects.create(coupon=self.coupon)
+        self.assertTrue(self.coupon.users.count(), 1)
+        self.assertIsNone(self.coupon.users.first().user)
+        self.assertIsNone(self.coupon.users.first().redeemed_at)
+
+        form_data = {'code': self.coupon.code}
+        form = CouponForm(data=form_data, user=self.user)
+
+        self.assertTrue(form.is_valid())
