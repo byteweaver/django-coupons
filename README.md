@@ -4,12 +4,27 @@
 
 A reuseable Django application for coupon gereration and handling
 
+## Setup instructions
+
+1. Install `django-coupons` via pip:
+   ```
+   $ pip install django-coupons
+   ```
+
+2. Add `'coupons'` to `INSTALLED_APPS` in `settings.py`.
+
+3. Migrate database:
+
+   ```
+   $ python manage.py migrate
+   ```
 
 ##Contributors
 (alphabetical order)
 
 * @akuryou
 * @ikresoft
+* @marshallds
 * @noxan
 * @TigerDX
 * @TimFletcher
