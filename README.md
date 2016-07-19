@@ -29,13 +29,3 @@ The difference is defined by the number of possible redeems and if they are boun
    ```
    $ python manage.py migrate
    ```
-
-##Contributors
-(alphabetical order)
-
-* @akuryou
-* @ikresoft
-* @marshallds
-* @noxan
-* @TigerDX
-* @TimFletcher
