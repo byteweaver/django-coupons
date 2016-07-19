@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Coupon, Campaign
+from .models import Coupon, CouponUser, Campaign
 from .settings import COUPON_TYPES
 
 
@@ -40,10 +40,28 @@ class CouponForm(forms.Form):
         except Coupon.DoesNotExist:
             raise forms.ValidationError(_("This code is not valid."))
         self.coupon = coupon
-        if coupon.redeemed_at is not None:
+
+        if self.user is None and coupon.user_limit is not 1:
+            # coupons with can be used only once can be used without tracking the user, otherwise there is no chance
+            # of excluding an unknown user from multiple usages.
+            raise forms.ValidationError(_(
+                "The server must provide an user to this form to allow you to use this code. Maybe you need to sign in?"
+            ))
+
+        if coupon.is_redeemed:
             raise forms.ValidationError(_("This code has already been used."))
-        if coupon.user is not None and coupon.user != self.user:
-            raise forms.ValidationError(_("This code is not valid for your account."))
+
+        try:  # check if there is a user bound coupon existing
+            user_coupon = coupon.users.get(user=self.user)
+            if user_coupon.redeemed_at is not None:
+                raise forms.ValidationError(_("This code has already been used by your account."))
+        except CouponUser.DoesNotExist:
+            if coupon.user_limit is not 0:  # zero means no limit of user count
+                # only user bound coupons left and you don't have one
+                if coupon.user_limit is coupon.users.filter(user__isnull=False).count():
+                    raise forms.ValidationError(_("This code is not valid for your account."))
+                if coupon.user_limit is coupon.users.filter(redeemed_at__isnull=False).count():  # all coupons redeemed
+                    raise forms.ValidationError(_("This code has already been used."))
         if self.types is not None and coupon.type not in self.types:
             raise forms.ValidationError(_("This code is not meant to be used here."))
         if coupon.expired():

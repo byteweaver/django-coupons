@@ -5,14 +5,31 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import TemplateView
 
 from .forms import CouponGenerationForm
-from .models import Coupon, Campaign
+from .models import Coupon, CouponUser, Campaign
+
+
+class CouponUserInline(admin.TabularInline):
+    model = CouponUser
+    extra = 0
+
+    def get_max_num(self, request, obj=None, **kwargs):
+        if obj:
+            return obj.user_limit
+        return None  # disable limit for new objects (e.g. admin add)
 
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['created_at', 'code', 'type', 'value', 'user', 'redeemed_at', 'valid_until', 'campaign']
-    list_filter = ['type', 'campaign', 'created_at', 'redeemed_at', 'valid_until']
-    raw_id_fields = ('user',)
-    search_fields = ('user__username', 'user__email', 'code', 'value')
+    list_display = [
+        'created_at', 'code', 'type', 'value', 'user_count', 'user_limit', 'is_redeemed', 'valid_until', 'campaign'
+    ]
+    list_filter = ['type', 'campaign', 'created_at', 'valid_until']
+    raw_id_fields = ()
+    search_fields = ('code', 'value')
+    inlines = (CouponUserInline,)
+    exclude = ('users',)
+
+    def user_count(self, inst):
+        return inst.users.count()
 
     def get_urls(self):
         urls = super(CouponAdmin, self).get_urls()
