@@ -15,11 +15,27 @@ The difference is defined by the number of possible redeems and if they are boun
     4) users list, coupon can be used by a defined list of users, each once.
     5) unlimited, coupon can be used unlimited times, but only once by the same user.
 
+## Setup instructions
+
+1. Install `django-coupons` via pip:
+   ```
+   $ pip install django-coupons
+   ```
+
+2. Add `'coupons'` to `INSTALLED_APPS` in `settings.py`.
+
+3. Migrate database:
+
+   ```
+   $ python manage.py migrate
+   ```
+
 ##Contributors
 (alphabetical order)
 
 * @akuryou
 * @ikresoft
+* @marshallds
 * @noxan
 * @TigerDX
 * @TimFletcher
