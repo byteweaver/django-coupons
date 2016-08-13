@@ -34,7 +34,6 @@ class CouponAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super(CouponAdmin, self).get_urls()
         my_urls = [
-            '',
             url(r'generate-coupons', self.admin_site.admin_view(GenerateCouponsAdminView.as_view()),
                 name='generate_coupons'),
 
