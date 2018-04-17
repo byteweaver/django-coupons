@@ -1,4 +1,4 @@
-#django-coupons
+# django-coupons
 
 ![build status](https://travis-ci.org/byteweaver/django-coupons.png)
 
