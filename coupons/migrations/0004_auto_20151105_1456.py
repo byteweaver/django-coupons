@@ -28,16 +28,18 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='coupon',
             name='type',
-            field=models.CharField(choices=[('monetary', 'Money based coupon'), ('percentage', 'Percentage discount'), ('virtual_currency', 'Virtual currency')], verbose_name='Type', max_length=20),
+            field=models.CharField(choices=settings.COUPONS_COUPON_TYPES, verbose_name='Type', max_length=20),
         ),
         migrations.AddField(
             model_name='couponuser',
             name='coupon',
-            field=models.ForeignKey(related_name='users', to='coupons.Coupon'),
+            field=models.ForeignKey(related_name='users', to='coupons.Coupon',
+                                    on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='couponuser',
             name='user',
-            field=models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL, blank=True, verbose_name='User'),
+            field=models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL, blank=True,
+                                    verbose_name='User', on_delete=models.CASCADE),
         ),
     ]

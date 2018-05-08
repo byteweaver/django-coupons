@@ -28,7 +28,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coupon',
             name='campaign',
-            field=models.ForeignKey(related_name=b'coupons', verbose_name='Campaign', blank=True, to='coupons.Campaign', null=True),
+            field=models.ForeignKey(related_name='coupons', verbose_name='Campaign', blank=True,
+                                    to='coupons.Campaign', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterField(

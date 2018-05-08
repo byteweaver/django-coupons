@@ -76,7 +76,8 @@ class Coupon(models.Model):
     valid_until = models.DateTimeField(
         _("Valid until"), blank=True, null=True,
         help_text=_("Leave empty for coupons that never expire"))
-    campaign = models.ForeignKey('Campaign', verbose_name=_("Campaign"), blank=True, null=True, related_name='coupons')
+    campaign = models.ForeignKey('Campaign', verbose_name=_("Campaign"), blank=True, null=True,
+                                 related_name='coupons', on_delete=models.CASCADE)
 
     objects = CouponManager()
 
@@ -149,8 +150,9 @@ class Campaign(models.Model):
 
 @python_2_unicode_compatible
 class CouponUser(models.Model):
-    coupon = models.ForeignKey(Coupon, related_name='users')
-    user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True)
+    coupon = models.ForeignKey(Coupon, related_name='users', on_delete=models.CASCADE)
+    user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True,
+                             on_delete=models.CASCADE)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
 
     class Meta:
