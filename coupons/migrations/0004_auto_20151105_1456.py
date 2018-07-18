@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='coupon',
             name='type',
-            field=models.CharField(choices=[('monetary', 'Money based coupon'), ('percentage', 'Percentage discount'), ('virtual_currency', 'Virtual currency')], verbose_name='Type', max_length=20),
+            field=models.CharField(choices=settings.COUPONS_COUPON_TYPES, verbose_name='Type', max_length=20),
         ),
         migrations.AddField(
             model_name='couponuser',
