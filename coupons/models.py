@@ -26,7 +26,7 @@ redeem_done = Signal(providing_args=["coupon"])
 
 
 class CouponManager(models.Manager):
-    def create_coupon(self, type, value, users=[], valid_until=None, prefix="", campaign=None, user_limit=None):
+    def create_coupon(self, type, value, users=None, valid_until=None, prefix="", campaign=None, user_limit=None):
         coupon = self.create(
             value=value,
             code=Coupon.generate_code(prefix),
@@ -41,6 +41,7 @@ class CouponManager(models.Manager):
         except IntegrityError:
             # Try again with other code
             coupon = Coupon.objects.create_coupon(type, value, users, valid_until, prefix, campaign)
+        users = users or []
         if not isinstance(users, list):
             users = [users]
         for user in users:
