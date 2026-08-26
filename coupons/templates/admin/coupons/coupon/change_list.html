@@ -1,0 +1,9 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+
+    <li>
+        <a href="generate-coupons/" class="grp-state-focus addlink">Generate coupons</a>
+    </li>
+{% endblock %}
