@@ -1,30 +1,23 @@
-from distutils.version import StrictVersion
-from unittest import skipIf
-
-import django
-from django.test import TestCase
 from django.contrib.admin.sites import AdminSite
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 
 from coupons.admin import CouponAdmin
 from coupons.models import Coupon
 
 
-class MockRequest(object):
-    pass
-
-
-request = MockRequest()
-
-
 class CouponAdminTestCase(TestCase):
     def setUp(self):
         self.site = AdminSite()
+        self.request = RequestFactory().get("/")
 
-    @skipIf(StrictVersion(django.get_version()) < StrictVersion('1.7'), "Skip list display test due to missing method.")
     def test_list_display(self):
-        admin = CouponAdmin(Coupon, self.site)
+        coupon_admin = CouponAdmin(Coupon, self.site)
 
-        self.assertEquals(
-            list(admin.get_fields(request)),
-            ['value', 'code', 'type', 'user_limit', 'valid_until', 'campaign']
+        self.assertEqual(
+            list(coupon_admin.get_fields(self.request)),
+            ["value", "code", "type", "user_limit", "valid_until", "campaign"],
         )
+
+    def test_generate_coupons_url_is_registered(self):
+        self.assertEqual(reverse("admin:generate_coupons"), "/admin/coupons/coupon/generate-coupons/")
