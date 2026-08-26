@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import TemplateView
 
-from .forms import CouponGenerationForm
+from .forms import CouponGenerationForm, CouponAdminForm
 from .models import Coupon, CouponUser, Campaign
 
 
@@ -19,6 +19,7 @@ class CouponUserInline(admin.TabularInline):
 
 
 class CouponAdmin(admin.ModelAdmin):
+    form = CouponAdminForm
     list_display = [
         'created_at', 'code', 'type', 'value', 'user_count', 'user_limit', 'is_redeemed', 'valid_until', 'campaign'
     ]
@@ -36,7 +37,6 @@ class CouponAdmin(admin.ModelAdmin):
         my_urls = [
             url(r'generate-coupons', self.admin_site.admin_view(GenerateCouponsAdminView.as_view()),
                 name='generate_coupons'),
-
         ]
         return my_urls + urls
 

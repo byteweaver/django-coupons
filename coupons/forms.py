@@ -5,6 +5,14 @@ from .models import Coupon, CouponUser, Campaign
 from .settings import COUPON_TYPES
 
 
+class CouponAdminForm(forms.ModelForm):
+    type = forms.ChoiceField(label=_("Type"), choices=COUPON_TYPES)
+
+    class Meta:
+        fields = '__all__'
+        model = Coupon
+
+
 class CouponGenerationForm(forms.Form):
     quantity = forms.IntegerField(label=_("Quantity"))
     value = forms.IntegerField(label=_("Value"))
