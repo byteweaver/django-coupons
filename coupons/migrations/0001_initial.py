@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('type', models.CharField(max_length=20, verbose_name='Type', choices=[(b'monetary', b'Money based coupon'), (b'percentage', b'Percentage discount'), (b'virtual_currency', b'Virtual currency')])),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
                 ('redeemed_at', models.DateTimeField(null=True, verbose_name='Redeemed at', blank=True)),
-                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, help_text='You may specify a user you want to restrict this coupon to.', null=True, verbose_name='User')),
+                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, help_text='You may specify a user you want to restrict this coupon to.', null=True, verbose_name='User', on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ['created_at'],

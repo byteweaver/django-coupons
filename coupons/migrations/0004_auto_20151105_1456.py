@@ -33,11 +33,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='couponuser',
             name='coupon',
-            field=models.ForeignKey(related_name='users', to='coupons.Coupon'),
+            field=models.ForeignKey(related_name='users', to='coupons.Coupon', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='couponuser',
             name='user',
-            field=models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL, blank=True, verbose_name='User'),
+            field=models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL, blank=True, verbose_name='User', on_delete=models.CASCADE),
         ),
     ]

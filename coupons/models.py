@@ -1,15 +1,12 @@
 import random
 
 from django.conf import settings
-from django.db import IntegrityError
-from django.db import models
+from django.db import IntegrityError, models, transaction
 from django.dispatch import Signal
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .settings import (
-    COUPON_TYPES,
     CODE_LENGTH,
     CODE_CHARS,
     SEGMENTED_CODES,
@@ -18,31 +15,34 @@ from .settings import (
 )
 
 
-try:
-    user_model = settings.AUTH_USER_MODEL
-except AttributeError:
-    from django.contrib.auth.models import User as user_model
-redeem_done = Signal(providing_args=["coupon"])
+user_model = settings.AUTH_USER_MODEL
+redeem_done = Signal()
 
 
 class CouponManager(models.Manager):
     def create_coupon(self, type, value, users=None, valid_until=None, prefix="", campaign=None, user_limit=None):
-        coupon = self.create(
-            value=value,
-            code=Coupon.generate_code(prefix),
-            type=type,
-            valid_until=valid_until,
-            campaign=campaign,
-        )
-        if user_limit is not None:  # otherwise use default value of model
-            coupon.user_limit = user_limit
-        try:
-            coupon.save()
-        except IntegrityError:
-            # Try again with other code
-            coupon = Coupon.objects.create_coupon(type, value, users, valid_until, prefix, campaign)
-        users = users or []
-        if not isinstance(users, list):
+        values = {
+            "value": value,
+            "type": type,
+            "valid_until": valid_until,
+            "campaign": campaign,
+        }
+        if user_limit is not None:
+            values["user_limit"] = user_limit
+
+        for _ in range(10):
+            try:
+                with transaction.atomic():
+                    coupon = self.create(code=Coupon.generate_code(prefix), **values)
+                break
+            except IntegrityError:
+                continue
+        else:
+            raise RuntimeError("Could not generate a unique coupon code after 10 attempts")
+
+        if users is None:
+            users = []
+        elif not isinstance(users, (list, tuple, set)):
             users = [users]
         for user in users:
             if user:
@@ -65,7 +65,6 @@ class CouponManager(models.Manager):
         return self.filter(valid_until__lt=timezone.now())
 
 
-@python_2_unicode_compatible
 class Coupon(models.Model):
     value = models.IntegerField(_("Value"), help_text=_("Arbitrary coupon value"))
     code = models.CharField(
@@ -77,7 +76,14 @@ class Coupon(models.Model):
     valid_until = models.DateTimeField(
         _("Valid until"), blank=True, null=True,
         help_text=_("Leave empty for coupons that never expire"))
-    campaign = models.ForeignKey('Campaign', verbose_name=_("Campaign"), blank=True, null=True, related_name='coupons')
+    campaign = models.ForeignKey(
+        "Campaign",
+        verbose_name=_("Campaign"),
+        blank=True,
+        null=True,
+        related_name="coupons",
+        on_delete=models.SET_NULL,
+    )
 
     objects = CouponManager()
 
@@ -92,7 +98,7 @@ class Coupon(models.Model):
     def save(self, *args, **kwargs):
         if not self.code:
             self.code = Coupon.generate_code()
-        super(Coupon, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def expired(self):
         return self.valid_until is not None and self.valid_until < timezone.now()
@@ -102,14 +108,12 @@ class Coupon(models.Model):
         """ Returns true is a coupon is redeemed (completely for all users) otherwise returns false. """
         return self.users.filter(
             redeemed_at__isnull=False
-        ).count() >= self.user_limit and self.user_limit is not 0
+        ).count() >= self.user_limit and self.user_limit != 0
 
     @property
     def redeemed_at(self):
-        try:
-            return self.users.filter(redeemed_at__isnull=False).order_by('redeemed_at').last().redeemed_at
-        except self.users.through.DoesNotExist:
-            return None
+        redemption = self.users.filter(redeemed_at__isnull=False).order_by("redeemed_at").last()
+        return redemption.redeemed_at if redemption else None
 
     @classmethod
     def generate_code(cls, prefix="", segmented=SEGMENTED_CODES):
@@ -134,7 +138,6 @@ class Coupon(models.Model):
         redeem_done.send(sender=self.__class__, coupon=self)
 
 
-@python_2_unicode_compatible
 class Campaign(models.Model):
     name = models.CharField(_("Name"), max_length=255, unique=True)
     description = models.TextField(_("Description"), blank=True)
@@ -148,10 +151,9 @@ class Campaign(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class CouponUser(models.Model):
-    coupon = models.ForeignKey(Coupon, related_name='users')
-    user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True)
+    coupon = models.ForeignKey(Coupon, related_name="users", on_delete=models.CASCADE)
+    user = models.ForeignKey(user_model, verbose_name=_("User"), null=True, blank=True, on_delete=models.CASCADE)
     redeemed_at = models.DateTimeField(_("Redeemed at"), blank=True, null=True)
 
     class Meta:

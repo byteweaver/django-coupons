@@ -1,7 +1,7 @@
-from django.conf.urls import url
+from django.urls import path
 from django.contrib import admin
 from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
 
 from .forms import CouponGenerationForm, CouponAdminForm
@@ -33,10 +33,13 @@ class CouponAdmin(admin.ModelAdmin):
         return inst.users.count()
 
     def get_urls(self):
-        urls = super(CouponAdmin, self).get_urls()
+        urls = super().get_urls()
         my_urls = [
-            url(r'generate-coupons', self.admin_site.admin_view(GenerateCouponsAdminView.as_view()),
-                name='generate_coupons'),
+            path(
+                "generate-coupons/",
+                self.admin_site.admin_view(GenerateCouponsAdminView.as_view()),
+                name="generate_coupons",
+            ),
         ]
         return my_urls + urls
 
@@ -45,7 +48,7 @@ class GenerateCouponsAdminView(TemplateView):
     template_name = 'admin/generate_coupons.html'
 
     def get_context_data(self, **kwargs):
-        context = super(GenerateCouponsAdminView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.method == 'POST':
             form = CouponGenerationForm(self.request.POST)
             if form.is_valid():
