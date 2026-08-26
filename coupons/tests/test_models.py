@@ -1,5 +1,6 @@
-from datetime import timedelta
 import re
+from datetime import timedelta
+from unittest.mock import patch
 
 from django.utils import timezone
 from django.test import TestCase
@@ -38,8 +39,24 @@ class CouponTestCase(TestCase):
         self.assertTrue(coupon.pk)
 
     def test_create_coupon(self):
-        coupon = Coupon.objects.create_coupon('monetary', 100)
+        coupon = Coupon.objects.create_coupon("monetary", 100)
         self.assertTrue(coupon.pk)
+        self.assertIsNone(coupon.redeemed_at)
+
+    def test_create_coupon_retries_code_collisions(self):
+        Coupon.objects.create(code="duplicate", type="monetary", value=100)
+        with patch.object(Coupon, "generate_code", side_effect=["duplicate", "unique"]):
+            coupon = Coupon.objects.create_coupon("monetary", 100)
+
+        self.assertEqual(coupon.code, "unique")
+
+    def test_create_coupon_accepts_multiple_user_iterables(self):
+        from django.contrib.auth import get_user_model
+
+        users = tuple(get_user_model().objects.create(username=f"user-{index}") for index in range(2))
+        coupon = Coupon.objects.create_coupon("monetary", 100, users=users)
+
+        self.assertEqual(coupon.users.count(), 2)
 
     def test_create_coupons(self):
         coupons = Coupon.objects.create_coupons(50, 'monetary', 100)
