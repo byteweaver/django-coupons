@@ -49,3 +49,9 @@ uv build
 ```
 
 CI additionally tests Django 5.2, 6.0, and 6.1 across Python 3.12–3.14.
+
+## Releasing
+
+Releases use PyPI Trusted Publishing; no API token is stored in GitHub. The PyPI publisher must be configured with repository owner `byteweaver`, repository `django-coupons`, workflow `publish.yml`, and environment `pypi`.
+
+To publish, update the project version and changelog, commit those changes, and create a GitHub release whose tag exactly matches the version with a `v` prefix (for example, `v2.0.0rc1`). Publishing the GitHub release builds the distributions and uploads them to PyPI with `uv publish`.
