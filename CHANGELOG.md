@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0a1 - Unreleased
+
+- Require Python 3.12+ and support Django 5.2–6.1.
+- Replace setuptools, tox, and Travis CI with uv, `pyproject.toml`, Ruff, coverage, and GitHub Actions.
+- Update removed Django APIs and make historical migrations usable by modern Django.
+- Fix unused campaign coupon counts and coupon-code collision handling.
+- Keep configurable coupon types out of package migrations.
+- Add a coupon-generation link to the Django admin.
+- Remove obsolete Python 2 and South support.
+
 ## V 1.2.0
 
 * Drop support for Django 1.4 and 1.5

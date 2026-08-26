@@ -1,31 +1,51 @@
 # django-coupons
 
-![build status](https://travis-ci.org/byteweaver/django-coupons.png)
+[![CI](https://github.com/byteweaver/django-coupons/actions/workflows/ci.yml/badge.svg)](https://github.com/byteweaver/django-coupons/actions/workflows/ci.yml)
 
-A reuseable Django application for coupon gereration and handling
+A reusable Django application for coupon generation and redemption.
 
-## Setup instructions
+## Requirements
 
-1. Install `django-coupons` via pip:
-   ```
-   $ pip install django-coupons
-   ```
+- Python 3.12+
+- Django 5.2 through 6.1
 
-2. Add `'coupons'` to `INSTALLED_APPS` in `settings.py`.
+## Installation
 
-3. Migrate database:
+```console
+python -m pip install django-coupons
+```
 
-   ```
-   $ python manage.py migrate
-   ```
+Add `"coupons"` to `INSTALLED_APPS`, then apply its migrations:
 
-## Supported use cases of coupons
+```console
+python manage.py migrate
+```
 
-This application supports different kind of coupons in the way how they can be redeemed.
-The difference is defined by the number of possible redeems and if they are bound to a specific user (may even be a list of users) or not.
+## Coupon use cases
 
-    1) single time (default), coupon can be used one time without being bound to an user.
-    2) user limited, coupon can be used one time but only by a specific user.
-    3) limit number, coupon can be used a limited number of times, by any user once.
-    4) users list, coupon can be used by a defined list of users, each once.
-    5) unlimited, coupon can be used unlimited times, but only once by the same user.
+Coupons can be configured for these redemption patterns:
+
+1. Single-use: one redemption without requiring a user.
+2. User-limited: one redemption by a specific user.
+3. Limited-use: a fixed number of redemptions, once per user.
+4. User list: one redemption by each specified user.
+5. Unlimited: unlimited redemptions overall, but only once per user.
+
+Coupon types default to monetary, percentage, and virtual currency. Override `COUPONS_COUPON_TYPES` to provide application-specific choices. Code length, characters, segmentation, and separators can also be configured with the `COUPONS_*` settings in `coupons/settings.py`.
+
+## Development
+
+Install [uv](https://docs.astral.sh/uv/), then create the locked development environment and run all local checks:
+
+```console
+uv sync --locked
+uv run ruff check .
+uv run ruff format --check .
+uv run coverage run -m django test --settings=coupons.tests.settings
+uv run coverage report
+uv run django-admin check --settings=coupons.tests.settings
+uv run django-admin makemigrations --check --dry-run --settings=coupons.tests.settings
+uv build
+```
+
+CI additionally tests Django 5.2, 6.0, and 6.1 across Python 3.12–3.14.
