@@ -1,24 +1,22 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Polish translations for django-coupons.
+# Copyright (C) django-coupons contributors
+# This file is distributed under the same license as django-coupons.
+# Jan Rydzewski <flegmer@gmail.com>, 2018.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: django-coupons 2.0\n"
+"Report-Msgid-Bugs-To: https://github.com/byteweaver/django-coupons/issues\n"
 "POT-Creation-Date: 2018-03-22 10:13+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2026-08-26 16:40+0200\n"
+"Last-Translator: Jan Rydzewski <flegmer@gmail.com>\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
-"%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
-"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && "
+"(n%100<12 || n%100>14)) ? 1 : 2);\n"
 #: coupons/admin.py:60
 msgid "Your coupons have been generated."
 msgstr "Kupony zostały wygenerowane."
@@ -37,7 +35,7 @@ msgstr "niewykorzystane"
 
 #: coupons/admin.py:88
 msgid "expired"
-msgstr "przedawnione"
+msgstr "wygasłe"
 
 #: coupons/forms.py:9
 msgid "Quantity"
@@ -69,7 +67,7 @@ msgstr "Kod kuponu"
 
 #: coupons/forms.py:41
 msgid "This code is not valid."
-msgstr "Kod nie jest poprawny."
+msgstr "Kod nie jest prawidłowy."
 
 #: coupons/forms.py:48
 msgid ""
@@ -87,7 +85,7 @@ msgstr "Kod został już przez ciebie wykorzystany."
 
 #: coupons/forms.py:62
 msgid "This code is not valid for your account."
-msgstr "Kod nie jest ważny dla twojego konta."
+msgstr "Kod nie jest przeznaczony dla twojego konta."
 
 #: coupons/forms.py:66
 msgid "This code is not meant to be used here."
@@ -156,4 +154,4 @@ msgstr "Wygeneruj kupony"
 
 #: coupons/templates/admin/generate_coupons.html:58
 msgid "Id"
-msgstr "Id"
+msgstr "ID"
