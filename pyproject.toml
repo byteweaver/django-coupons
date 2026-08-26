@@ -47,6 +47,7 @@ include = ["/coupons", "/CHANGELOG.md", "/CONTRIBUTORS.md", "/LICENSE", "/README
 [tool.ruff]
 target-version = "py312"
 line-length = 120
+extend-exclude = ["coupons/migrations"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "DJ"]

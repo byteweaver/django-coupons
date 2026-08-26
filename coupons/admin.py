@@ -1,11 +1,10 @@
+from django.contrib import admin, messages
 from django.urls import path
-from django.contrib import admin
-from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
 
-from .forms import CouponGenerationForm, CouponAdminForm
-from .models import Coupon, CouponUser, Campaign
+from .forms import CouponAdminForm, CouponGenerationForm
+from .models import Campaign, Coupon, CouponUser
 
 
 class CouponUserInline(admin.TabularInline):
@@ -21,13 +20,21 @@ class CouponUserInline(admin.TabularInline):
 class CouponAdmin(admin.ModelAdmin):
     form = CouponAdminForm
     list_display = [
-        'created_at', 'code', 'type', 'value', 'user_count', 'user_limit', 'is_redeemed', 'valid_until', 'campaign'
+        "created_at",
+        "code",
+        "type",
+        "value",
+        "user_count",
+        "user_limit",
+        "is_redeemed",
+        "valid_until",
+        "campaign",
     ]
-    list_filter = ['type', 'campaign', 'created_at', 'valid_until']
+    list_filter = ["type", "campaign", "created_at", "valid_until"]
     raw_id_fields = ()
-    search_fields = ('code', 'value')
+    search_fields = ("code", "value")
     inlines = (CouponUserInline,)
-    exclude = ('users',)
+    exclude = ("users",)
 
     def user_count(self, inst):
         return inst.users.count()
@@ -45,25 +52,25 @@ class CouponAdmin(admin.ModelAdmin):
 
 
 class GenerateCouponsAdminView(TemplateView):
-    template_name = 'admin/generate_coupons.html'
+    template_name = "admin/generate_coupons.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.method == 'POST':
+        if self.request.method == "POST":
             form = CouponGenerationForm(self.request.POST)
             if form.is_valid():
-                context['coupons'] = Coupon.objects.create_coupons(
-                    form.cleaned_data['quantity'],
-                    form.cleaned_data['type'],
-                    form.cleaned_data['value'],
-                    form.cleaned_data['valid_until'],
-                    form.cleaned_data['prefix'],
-                    form.cleaned_data['campaign'],
+                context["coupons"] = Coupon.objects.create_coupons(
+                    form.cleaned_data["quantity"],
+                    form.cleaned_data["type"],
+                    form.cleaned_data["value"],
+                    form.cleaned_data["valid_until"],
+                    form.cleaned_data["prefix"],
+                    form.cleaned_data["campaign"],
                 )
                 messages.success(self.request, _("Your coupons have been generated."))
         else:
             form = CouponGenerationForm()
-        context['form'] = form
+        context["form"] = form
         return context
 
     def post(self, request, *args, **kwargs):
@@ -72,22 +79,26 @@ class GenerateCouponsAdminView(TemplateView):
 
 
 class CampaignAdmin(admin.ModelAdmin):
-    list_display = ['name', 'num_coupons', 'num_coupons_used', 'num_coupons_unused', 'num_coupons_expired']
+    list_display = ["name", "num_coupons", "num_coupons_used", "num_coupons_unused", "num_coupons_expired"]
 
     def num_coupons(self, obj):
         return obj.coupons.count()
+
     num_coupons.short_description = _("coupons")
 
     def num_coupons_used(self, obj):
         return obj.coupons.used().count()
+
     num_coupons_used.short_description = _("used")
 
     def num_coupons_unused(self, obj):
         return obj.coupons.unused().count()
+
     num_coupons_unused.short_description = _("unused")
 
     def num_coupons_expired(self, obj):
         return obj.coupons.expired().count()
+
     num_coupons_expired.short_description = _("expired")
 
 
